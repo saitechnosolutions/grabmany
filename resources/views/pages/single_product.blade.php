@@ -538,7 +538,8 @@
         <div class="row">
             <!-- mainHeader -->
             <header class="col-12 mainHeader mb-5 text-center">
-                <h1 class="headingIV playfair fwEblod mb-4">Related products</h1>
+                <h1 class="headingIV fwEblod mb-4" style="font-family: DMSerifDisplay;font-weight:300;">Related products
+                </h1>
             </header>
         </div>
         <div class="row">

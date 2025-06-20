@@ -130,149 +130,6 @@
             }
         }
 
-        /* .premium-benefits-wrapper {
-                                                                                                                    padding: 4rem 0;
-                                                                                                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                                                                                                    min-height: 90vh;
-                                                                                                                    display: flex;
-                                                                                                                    align-items: center;
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card {
-                                                                                                                    background: rgba(255, 255, 255, 0.95);
-                                                                                                                    border-radius: 20px;
-                                                                                                                    padding: 2rem 1.5rem;
-                                                                                                                    text-align: center;
-                                                                                                                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-                                                                                                                    border: none;
-                                                                                                                    transition: all 0.3s ease;
-                                                                                                                    height: 100%;
-                                                                                                                    backdrop-filter: blur(10px);
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card:hover {
-                                                                                                                    transform: translateY(-10px);
-                                                                                                                    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-                                                                                                                }
-
-                                                                                                                .benefit-icon-circle {
-                                                                                                                    width: 80px;
-                                                                                                                    height: 80px;
-                                                                                                                    margin: 0 auto 1.5rem;
-                                                                                                                    background: linear-gradient(135deg, #667eea, #764ba2);
-                                                                                                                    border-radius: 50%;
-                                                                                                                    display: flex;
-                                                                                                                    align-items: center;
-                                                                                                                    justify-content: center;
-                                                                                                                    font-size: 2rem;
-                                                                                                                    color: white;
-                                                                                                                    transition: all 0.3s ease;
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card:hover .benefit-icon-circle {
-                                                                                                                    transform: scale(1.1) rotate(5deg);
-                                                                                                                }
-
-                                                                                                                .benefit-card-heading {
-                                                                                                                    font-size: 1.25rem;
-                                                                                                                    font-weight: 700;
-                                                                                                                    color: #2d3748;
-                                                                                                                    margin-bottom: 0.75rem;
-                                                                                                                }
-
-                                                                                                                .benefit-card-text {
-                                                                                                                    color: #718096;
-                                                                                                                    font-size: 0.95rem;
-                                                                                                                    line-height: 1.6;
-                                                                                                                    margin: 0;
-                                                                                                                }
-
-                                                                                                                .benefits-header-section {
-                                                                                                                    text-align: center;
-                                                                                                                    margin-bottom: 3rem;
-                                                                                                                    color: white;
-                                                                                                                }
-
-                                                                                                                .benefits-main-heading {
-                                                                                                                    font-size: 2.5rem;
-                                                                                                                    font-weight: 800;
-                                                                                                                    margin-bottom: 1rem;
-                                                                                                                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                                                                                                                }
-
-                                                                                                                .benefits-subtitle-text {
-                                                                                                                    font-size: 1.1rem;
-                                                                                                                    opacity: 0.9;
-                                                                                                                    max-width: 600px;
-                                                                                                                    margin: 0 auto;
-                                                                                                                }
-
-                                                                                                                @media (max-width: 768px) {
-                                                                                                                    .premium-benefits-wrapper {
-                                                                                                                        padding: 3rem 0;
-                                                                                                                    }
-
-                                                                                                                    .benefits-main-heading {
-                                                                                                                        font-size: 2rem;
-                                                                                                                    }
-
-                                                                                                                    .benefit-showcase-card {
-                                                                                                                        margin-bottom: 2rem;
-                                                                                                                        padding: 1.5rem 1rem;
-                                                                                                                    }
-
-                                                                                                                    .benefit-icon-circle {
-                                                                                                                        width: 70px;
-                                                                                                                        height: 70px;
-                                                                                                                        font-size: 1.75rem;
-                                                                                                                    }
-
-                                                                                                                    .benefit-card-heading {
-                                                                                                                        font-size: 1.1rem;
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                @media (max-width: 576px) {
-                                                                                                                    .benefits-main-heading {
-                                                                                                                        font-size: 1.75rem;
-                                                                                                                    }
-
-                                                                                                                    .benefit-icon-circle {
-                                                                                                                        width: 60px;
-                                                                                                                        height: 60px;
-                                                                                                                        font-size: 1.5rem;
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card {
-                                                                                                                    opacity: 0;
-                                                                                                                    transform: translateY(30px);
-                                                                                                                    animation: slideUpFadeIn 0.6s ease forwards;
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card:nth-child(1) {
-                                                                                                                    animation-delay: 0.1s;
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card:nth-child(2) {
-                                                                                                                    animation-delay: 0.2s;
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card:nth-child(3) {
-                                                                                                                    animation-delay: 0.3s;
-                                                                                                                }
-
-                                                                                                                .benefit-showcase-card:nth-child(4) {
-                                                                                                                    animation-delay: 0.4s;
-                                                                                                                }
-
-                                                                                                                @keyframes slideUpFadeIn {
-                                                                                                                    to {
-                                                                                                                        opacity: 1;
-                                                                                                                        transform: translateY(0);
-                                                                                                                    }
-                                                                                                                } */
-
         .premium-benefits-wrapper {
             padding: 4rem 0;
             background: linear-gradient(135deg, #ffffff 0%, #81c784 100%);
@@ -470,13 +327,13 @@
             $prod = App\Models\products::get();
         @endphp
 
-        <div class="row p-0 overflow-hidden d-flex flex-wrap">
+        <div class="row p-0 overflow-hidden d-flex flex-wrap g-4">
             @foreach ($prod as $product)
                 @php
 
                     $firstVarient = \App\Models\ProductVarient::where('product_id', $product->id)->first();
                 @endphp
-                <div class="col-lg-3 col-3">
+                <div class="col-lg-3 col-12 mb-3">
                     <div class="card" style="border-radius: 15px;height:480px">
                         <div class="card-header bg-transparent text-right">
                             <a href="/product-details/{{ $product->prod_unique_name }}"><img
@@ -530,7 +387,7 @@
 
                     $firstVarient = \App\Models\ProductVarient::where('product_id', $product->id)->first();
                 @endphp
-                <div class="col-lg-3">
+                <div class="col-lg-3 col-12 mb-3">
                     <div class="card" style="border-radius: 15px;height:480px">
                         <div class="card-header bg-transparent text-right">
                             <a href="/product-details/{{ $product->prod_unique_name }}"><img
@@ -623,7 +480,7 @@
 
             <div class="row g-4">
                 <!-- Free Shipping -->
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                     <div class="benefit-showcase-card">
                         <div class="benefit-icon-circle">
                             <i class="fas fa-shipping-fast"></i>
@@ -635,7 +492,7 @@
                 </div>
 
                 <!-- Perfect Gift -->
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                     <div class="benefit-showcase-card">
                         <div class="benefit-icon-circle">
                             <i class="fas fa-gift"></i>
@@ -647,7 +504,7 @@
                 </div>
 
                 <!-- Easy Returns -->
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                     <div class="benefit-showcase-card">
                         <div class="benefit-icon-circle">
                             <i class="fas fa-undo-alt"></i>
@@ -659,7 +516,7 @@
                 </div>
 
                 <!-- Customer Support -->
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                     <div class="benefit-showcase-card">
                         <div class="benefit-icon-circle">
                             <i class="fas fa-headset"></i>

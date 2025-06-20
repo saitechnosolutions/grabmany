@@ -13,7 +13,6 @@
                         <div class="d-flex flex-nowrap align-items-center">
                             <strong class="groupTitle mr-2">Sort by:</strong>
                             <div class="shop-sort">
-
                                 <select class="form-select form-control orderby" id="product_sort_filter" name="orderby"
                                     aria-label="Sort select example">
                                     <option value="menu_order" selected="selected">Default Sorting</option>
@@ -28,10 +27,11 @@
             </div>
         </div>
         <div class="row g-3">
-            <div class="col-lg-3 p-4" style="border:1px solid #095256; border-radius:16px; background-color: #f9f9f9;">
+            <div class="col-lg-3 p-4 sm-mb-4"
+                style="border:1px solid #f9f9f9; border-radius:16px; background-color: #f9f9f9;">
                 <!-- Product Categories -->
                 <section class="widget mb-5">
-                    <h4 class="fw-bold text-uppercase mb-4" style="color:#095256;" style="">Product Categories</h4>
+                    <h5 class="fw-bold text-uppercase mb-4" style="color:#095256;" style="">Product Categories</h5>
                     <form id="categoryFilter">
                         <div class="form-check mb-2">
                             <input class="form-check-input category-radio" type="radio" name="category" id="cat_all"
@@ -65,7 +65,7 @@
 
                 <!-- Price Filter -->
                 <section class="widget">
-                    <h4 class="fw-bold text-uppercase mb-4" style="color:#095256;">Filter by Price</h4>
+                    <h5 class="fw-bold text-uppercase mb-4" style="color:#095256;">Filter by Price</h5>
                     <div class="price-range-section">
                         <div class="row g-2 mb-3">
                             <div class="col-6">
@@ -84,7 +84,7 @@
                 @if ($products->count())
                     <div class="row" id="product-container">
                         @foreach ($products as $product)
-                            <div class="col-lg-4 col-12 col-sm-6  featureCol mb-7 produc"
+                            <div class="col-lg-4 mt-3 col-12 col-sm-6  featureCol mb-7 produc"
                                 data-cat="{{ $product->category_id }}" data-price="{{ $product->product_regular_price }}"
                                 data-date="{{ $product->created_at }}">
                                 @php
@@ -118,11 +118,9 @@
                                             </div>
                                         </div>
                                         <div class="row mt-3">
-                                            <div class="col-lg-12">
-                                                <button class="btn btnTheme btnShop p-2 text-white w-full prod_add_to_cart"
-                                                    data-prod_id="{{ $product->id }}" style="min-width:270px">
-                                                    Add to Cart
-                                                </button>
+                                            <div class="col-lg-12 text-center">
+                                                <a href="/product-details/{{ $product->prod_unique_name }}"
+                                                    class="btn btnTheme btnShop p-2 text-white w-full">View Details</a>
                                             </div>
                                         </div>
 
