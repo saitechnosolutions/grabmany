@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('main-content')
-    <section class="introBannerHolder d-flex w-100 bgCover">
+    <section class="introBannerHolder d-flex w-100 bgCover" style="background: url('/assets/images/b-bg.jpg');">
         <div class="container">
             <div class="row">
                 <div class="col-12 pt-lg-5 pt-md-15 pt-sm-10 pt-6 text-center">

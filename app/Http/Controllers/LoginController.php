@@ -18,21 +18,20 @@ class LoginController extends Controller {
     public function register( Request $request ) {
         //  dd( $request );
 
-        if ( User::where( 'email', $request->input( 'email' ) )->orWhere( 'phone', $request->input( 'phone' ) )->exists() ) {
-            Session::flash( 'error', 'Email or phone number already exists' );
-            return redirect()->back();
+        if ( User::where( 'email', $request->input( 'email' ) )->orWhere( 'phone_number', $request->input( 'phone' ) )->exists() ) {
+            return redirect()->back()->with( 'error', 'User Already Exists' );
         } else {
 
             $user = new User();
             $user->name = $request->input( 'name' );
             $user->email = $request->input( 'email' );
-            $user->phone = $request->input( 'phone' );
+            $user->phone_number = $request->input( 'phone' );
             $user->password = Hash::Make( $request->input( 'password' ) );
             $user->mode = 'loggin';
 
             $user->save();
 
-            return back();
+            return redirect( '/login' )->with( 'success', 'User Registered SuccessFully' );
 
         }
     }
