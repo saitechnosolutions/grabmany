@@ -67,5 +67,8 @@ Route::POST('/checkoutmm',[CheckoutController::class,'checkoutmm']);
 
 Route::POST('/order/fetchordersummary',[productController::class,'fetchordersummary']);
 
+Route::POST('/checkout/create-razor',[CheckoutController::class,'createSingleRazorpayOrder']);
+Route::POST('/checkout/create-order',[CheckoutController::class,'createneworder']);
+
 
 //

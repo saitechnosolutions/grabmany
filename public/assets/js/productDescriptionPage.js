@@ -119,6 +119,8 @@ $(document).ready(function () {
         var prod_id = $("#checkout_prod_id").val();
         var product_quantity = $("#hidden_prod_varient_qty").val() || 1;
 
+        var user_id = localStorage.getItem("guest_user_id");
+
         var size_value = $("#hidden_prod_varient_size").val();
         var color_value = $("#hidden_prod_varient_color").val();
 
@@ -143,6 +145,17 @@ $(document).ready(function () {
                     $(".single_checkout_step_two").show();
 
                     let product = result.product;
+
+                    $("#single_check_product_id").val(product.id);
+                    $("#single_check_product_varient_id").val(
+                        product.prod_varient_id
+                    );
+                    $("#single_check_product_size_value").val(product.size);
+                    $("#single_check_product_color_value").val(product.color);
+                    $("#single_check_product_quantity").val(product.quantity);
+                    $("#single_check_product_total_price").val(product.total);
+                    $("#single_check_product_single_price").val(product.price);
+                    $("#single_check_product_user_id").val(user_id);
 
                     let row = `
                     <tr class="cart_item">
@@ -170,6 +183,7 @@ $(document).ready(function () {
                         currentSubtotal + parseFloat(product.total);
                     $(".cart_total").text(`₹${newSubtotal}`);
                     $(".total").text(`₹${newSubtotal + 50}`);
+                    $(".total-hidden").val(`${newSubtotal + 50}`);
                     $("input[name='cart_total']").val(newSubtotal);
                     $("input[name='total']").val(newSubtotal + 50);
 
@@ -226,6 +240,130 @@ $(document).ready(function () {
                     text: "Failed to add item to cart.",
                     confirmButtonColor: "#dc3545",
                 });
+            },
+        });
+    });
+});
+
+$(document).ready(function () {
+    $(document).on("submit", "#single_checkout_form_data", function (e) {
+        e.preventDefault();
+
+        const formData = new FormData($("#single_checkout_form_data")[0]);
+
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        $.ajax({
+            url: "/checkout/create-razor",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.status === "success") {
+                    $("#staticBackdropcheckout").modal("hide");
+                    const options = {
+                        key: response.key,
+                        amount: response.amount,
+                        currency: "INR",
+                        name: "Your Store Name",
+                        description: "Order Payment",
+                        order_id: response.order_id,
+                        handler: function (paymentResult) {
+                            // Append Razorpay response to FormData
+                            formData.append(
+                                "razorpay_payment_id",
+                                paymentResult.razorpay_payment_id
+                            );
+                            formData.append(
+                                "razorpay_order_id",
+                                paymentResult.razorpay_order_id
+                            );
+                            formData.append(
+                                "razorpay_signature",
+                                paymentResult.razorpay_signature
+                            );
+
+                            // Submit final form data
+                            $.ajax({
+                                url: "/checkout/create-order",
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    Swal.fire({
+                                        title: "Success",
+                                        text: response.message,
+                                        icon: "success",
+                                        customClass: {
+                                            popup: "swal-custom-popup",
+                                        },
+                                    });
+
+                                    // Toast Notification
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: "top-end",
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                        customClass: {
+                                            popup: "swal-custom-popup",
+                                        },
+                                        didOpen: (toast) => {
+                                            toast.onmouseenter = Swal.stopTimer;
+                                            toast.onmouseleave =
+                                                Swal.resumeTimer;
+                                        },
+                                    });
+
+                                    Toast.fire({
+                                        icon: "success",
+                                        title: response.message,
+                                    });
+
+                                    // Redirect after success
+                                    setTimeout(function () {
+                                        window.location.href = "/";
+                                    }, 1500);
+                                },
+                                error: function () {
+                                    alert(
+                                        "Order failed to store. Please contact support."
+                                    );
+                                    $('button[type="submit"]').prop(
+                                        "disabled",
+                                        false
+                                    );
+                                },
+                            });
+                        },
+                        prefill: {
+                            name: $("#firstname").val(),
+                            email: $("#defemail").val(),
+                            contact: $("#defphone").val(),
+                        },
+                        theme: {
+                            color: "#3399cc",
+                        },
+                    };
+
+                    const rzp = new Razorpay(options);
+                    rzp.open();
+                } else {
+                    alert("Failed to create Razorpay order.");
+                    $('button[type="submit"]').prop("disabled", false);
+                }
+            },
+            error: function (err) {
+                console.error(err);
+                alert("Server error. Please try again.");
+                $('button[type="submit"]').prop("disabled", false);
             },
         });
     });

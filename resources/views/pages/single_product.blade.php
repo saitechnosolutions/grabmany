@@ -506,9 +506,25 @@
                                         <i class="fas fa-arrow-right ml-2"></i></button>
                                 </div>
                                 <div class="col-lg-6">
-                                    <a href="single_check/{{ $product_single->id }}"
-                                        class="btn btnTheme btnShop fwEbold text-white md-round p-3">Buy
-                                        <i class="fas fa-arrow-right ml-2"></i></a>
+                                    <form action="" method="post" id="single_prod_checkout">
+                                        <input type="hidden" name="checkout_prod_price"
+                                            value="{{ $firstVarient->mrp_price }}" id="checkout_prod_price">
+                                        <input type="hidden" name="checkout_prod_varient_id" value=""
+                                            id="hidden_prod_varient_id">
+                                        <input type="hidden" name="checkout_prod_varient_color" value=""
+                                            id="hidden_prod_varient_color">
+                                        <input type="hidden" name="checkout_prod_varient_size" value=""
+                                            id="hidden_prod_varient_size">
+                                        <input type="hidden" name="checkout_prod_varient_qty" value=""
+                                            id="hidden_prod_varient_qty">
+                                        <input type="hidden" name="checkout_prod_id" value="{{ $product_single->id }}"
+                                            id="checkout_prod_id">
+                                        <button type="submit"
+                                            class="btn btnTheme btnShop fwEbold text-white md-round p-3">
+                                            Buy
+                                            <i class="fas fa-arrow-right ml-2"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             @else
                                 <div class="col-lg-6">
@@ -528,7 +544,7 @@
                                             id="hidden_prod_varient_size">
                                         <input type="hidden" name="checkout_prod_varient_qty" value=""
                                             id="hidden_prod_varient_qty">
-                                        <input type="hidden" name="checkout_prod_id" value="{{ $firstVarient->id }}"
+                                        <input type="hidden" name="checkout_prod_id" value="{{ $product_single->id }}"
                                             id="checkout_prod_id">
                                         <button type="submit"
                                             class="btn btnTheme btnShop fwEbold text-white md-round p-3">
@@ -700,7 +716,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="checkOutMM" enctype="multipart/form-data">
+                        <form id="single_checkout_form_data" enctype="multipart/form-data">
                             <div class="single_checkout_step_one">
                                 @if (Auth::check())
                                     <div class="row">
@@ -959,17 +975,45 @@
                                                                 <h5 class="m-0"><strong><span
                                                                             class="amount total">₹0</span></strong></h5>
                                                                 <input type="hidden" class="amount total-hidden"
-                                                                    name="total" value="">
+                                                                    name="totalHidden" value="">
                                                             </td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
                                             </div>
+
+                                            <input type="hidden" name="single_check_product_id"
+                                                id="single_check_product_id">
+                                            <input type="hidden" name="single_check_product_varient_id"
+                                                id="single_check_product_varient_id">
+                                            <input type="hidden" name="single_check_product_size_value"
+                                                id="single_check_product_size_value">
+                                            <input type="hidden" name="single_check_product_color_value"
+                                                id="single_check_product_color_value">
+                                            <input type="hidden" name="single_check_product_quantity"
+                                                id="single_check_product_quantity">
+                                            <input type="hidden" name="single_check_product_total_price"
+                                                id="single_check_product_total_price">
+                                            <input type="hidden" name="single_check_product_single_price"
+                                                id="single_check_product_single_price">
+
+                                            @if (Auth::check())
+                                                <input type="hidden" name="single_check_product_user_id"
+                                                    value="{{ Auth::user()->user_id }}">
+                                            @else
+                                                <input type="hidden" name="single_check_product_user_id" value=""
+                                                    id="single_check_product_user_id">
+                                                <input type="hidden" name="is_guest_user" id="is_guest_user"
+                                                    value="1">
+                                            @endif
+
+
                                             <div class="row mt-3">
                                                 <div class="col-lg-4"></div>
                                                 <div class="col-lg-4 text-center">
                                                     <button class="btn btnTheme  fwEbold text-white py-3 px-4"
-                                                        type="submit" style="max-width: 230px">Pay Now</button>
+                                                        type="submit" style="max-width: 230px"
+                                                        id="single_checkout_pay_now_btn">Pay Now</button>
                                                 </div>
                                                 <div class="col-lg-4"></div>
                                             </div>
