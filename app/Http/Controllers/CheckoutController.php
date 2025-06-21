@@ -198,7 +198,24 @@ class CheckoutController extends Controller {
 
     public function checkoutnew( Request $request ) {
         try {
-            dd( $request );
+            $prod_price = $request->checkout_prod_price;
+            $color_value = $request->color_value;
+            $size_value = $request->size_value;
+            $prod_id = $request->prod_id;
+            $product_quantity = $request->product_quantity;
+
+            $product_Varient = ProductVarient::where( 'product_id', $prod_id )
+            ->where( 'size_value', $size_value )
+            ->where( 'color_value', $color_value )
+            ->first();
+
+            $states = state::all();
+
+            return response()->json( [
+                'status'=>'200',
+                'message'=>'checkout Details Fetched Successfully'
+            ] );
+
         } catch ( \Throwable $th ) {
             Log::error( $th );
         }

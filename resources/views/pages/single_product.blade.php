@@ -283,6 +283,51 @@
         .gallery-top .swiper-slide.swiper-slide-active {
             opacity: 1;
         }
+
+        .pill-counter-widget {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .pill-counter-widget .btn {
+            border-radius: 0;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .pill-counter-widget .btn:first-child {
+            border-top-left-radius: 25px;
+            border-bottom-left-radius: 25px;
+        }
+
+        .pill-counter-widget .btn:last-child {
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
+
+        .pill-counter-widget .form-control {
+            border-radius: 0;
+            text-align: center;
+            height: 50px;
+            font-size: 16px;
+            font-weight: 500;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        .pill-counter-widget .form-control:focus {
+            box-shadow: none;
+            border-color: #dee2e6;
+        }
+
+        .pill-counter-widget .btn:focus {
+            box-shadow: none;
+        }
     </style>
 
     @if ($product_single)
@@ -405,7 +450,15 @@
                             <div class="prod_size_append d-flex flex-wrap gap-2"></div>
                         </div>
 
-                        <input type="number" placeholder="1" class="input qty-input" id="qty-input" name="prod_qty_input">
+                        {{-- <input type="number" placeholder="1" class="input qty-input" id="qty-input" name="prod_qty_input"> --}}
+                        <div class="pill-counter-widget">
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary" type="button" id="decreaseBtn">−</button>
+                                <input type="number" class="form-control" id="quantityInput" value="1" min="0"
+                                    max="50">
+                                <button class="btn btn-outline-secondary" type="button" id="increaseBtn">+</button>
+                            </div>
+                        </div>
                         <div class="row overflow-hidden mb-4 mt-2">
                             @if (Auth::check())
                                 <div class="col-lg-6">
@@ -427,25 +480,25 @@
                                         <i class="fas fa-arrow-right ml-2"></i></a>
                                 </div>
                                 <div class="col-lg-6">
-                                    <form action="/check-out" method="post">
+                                    <form action="" method="post" id="single_prod_checkout">
                                         <input type="hidden" name="checkout_prod_price"
-                                            value="{{ $firstVarient->mrp_price }}">
+                                            value="{{ $firstVarient->mrp_price }}" id="checkout_prod_price">
                                         <input type="hidden" name="checkout_prod_varient_id" value=""
                                             id="hidden_prod_varient_id">
                                         <input type="hidden" name="checkout_prod_varient_color" value=""
                                             id="hidden_prod_varient_color">
                                         <input type="hidden" name="checkout_prod_varient_size" value=""
                                             id="hidden_prod_varient_size">
-                                        <input type="hidden" name="checkout_prod_id" value="{{ $firstVarient->id }}">
+                                        <input type="hidden" name="checkout_prod_varient_qty" value=""
+                                            id="hidden_prod_varient_qty">
+                                        <input type="hidden" name="checkout_prod_id" value="{{ $firstVarient->id }}"
+                                            id="">
                                         <button type="submit"
                                             class="btn btnTheme btnShop fwEbold text-white md-round p-3">
                                             Buy
                                             <i class="fas fa-arrow-right ml-2"></i>
                                         </button>
                                     </form>
-                                    {{-- <a href="/single_check/{{ $product_single->id }}"
-                                        class="btn btnTheme btnShop fwEbold text-white md-round p-3">Buy
-                                        <i class="fas fa-arrow-right ml-2"></i></a> --}}
                                 </div>
                             @endif
                         </div>
@@ -514,6 +567,8 @@
             </div>
             @if (Auth::check())
                 <input type="hidden" value="{{ Auth::user()->id }}" id="logged_user_id">
+            @else
+                <input type="hidden" value="" id="logged_user_id">
             @endif
 
         </div>
@@ -595,6 +650,128 @@
                 </div>
         </div>
         @endforeach
+        </div>
+
+        {{-- *CHECKOUT MODAL --}}
+
+        <div class="modal fade" id="staticBackdropcheckout" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropcheckoutLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropcheckoutLabel">Address Details</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="checkOutMM" enctype="multipart/form-data">
+                            <div class="row">
+                                <!-- Billing Address -->
+                                <div class="col-md-12 shibill">
+                                    <h5 class="mb-3">Billing Address</h5>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control name_bill" name="customer_name"
+                                            placeholder="Full Name" value="{{ Auth::user()->name ?? '' }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control address_bill" name="customer_address"
+                                            placeholder="Street Address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control email_bill" name="customer_email"
+                                            placeholder="Email Address" value="{{ Auth::user()->email ?? '' }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="tel" class="form-control number_bill"
+                                            name="customer_phone_number" placeholder="Phone Number"
+                                            value="{{ Auth::user()->phone ?? '' }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <select class="form-control state_bill" name="customer_state">
+                                            <option value="">Select State</option>
+                                            @php $states = App\Models\state::all(); @endphp
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <select class="form-control city_bill" name="customer_city">
+                                            <option value="">Select City</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control zip_bill" name="customer_postal_code"
+                                            placeholder="Postcode / Zip">
+                                    </div>
+
+                                    <!-- Shipping Address Toggle -->
+                                    <p id="ship-to-different-address">
+                                        <input id="ship-to-different-address-checkbox" type="checkbox"
+                                            name="ship_to_different_address" value="1">
+                                        <label for="ship-to-different-address-checkbox">
+                                            Billing and Shipping Address are Same
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </p>
+
+                                    <!-- Shipping Address -->
+                                    <div class="ship-form">
+                                        <h5 class="mb-3">Shipping Address</h5>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control name_ship"
+                                                name="customer_shippingname" placeholder="Full Name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control address_ship"
+                                                name="customer_shippingaddress" placeholder="Street Address">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="email" class="form-control email_ship"
+                                                name="customer_shippingemail" placeholder="Email Address">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="tel" class="form-control number_ship"
+                                                name="customer_shippingphone" placeholder="Phone Number">
+                                        </div>
+                                        <div class="mb-3">
+                                            <select class="form-control state_ship" id="state_ship"
+                                                name="customer_shippingstate">
+                                                <option value="">Select State</option>
+                                                @foreach ($states as $state)
+                                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <select class="form-control city_ship" id="city_ship"
+                                                name="customer_shippingcity">
+                                                <option value="">Select City</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control zip_ship"
+                                                name="customer_shippingpostal_code" placeholder="Postcode / Zip">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="row mt-3">
+                                <div class="col text-center">
+                                    <button class="btn btnTheme  fwEbold text-white py-3 px-4" type="submit">Proceed to
+                                        Checkout</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
@@ -716,7 +893,7 @@
                             `;
                             });
                             $('.available_color_title').show();
-                            $('#checkout_prod_varient_size').val(size_value);
+                            $('#hidden_prod_varient_size').val(size_value);
                         } else {
                             colorHtml = `<div class="text-danger">No Available Colors</div>`;
                             $('.available_color_title').hide();
@@ -731,6 +908,9 @@
             $(document).on('click', '.prod_color_select', function() {
                 $('.prod_color_select').removeClass('active');
                 $(this).addClass('active');
+                var color_value = $(".prod_color_select.active").data("color");
+                alert(color_value);
+                $('#hidden_prod_varient_color').val(color_value);
             });
         });
     </script>
