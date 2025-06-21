@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Razorpay\Api\Api;
+use Razorpay\Api\Product;
 
 class CheckoutController extends Controller {
     public function checkout( Request $request ) {
@@ -209,15 +210,27 @@ class CheckoutController extends Controller {
             ->where( 'color_value', $color_value )
             ->first();
 
-            $states = state::all();
+            $product = products::find( $prod_id );
+            // Assuming you have a Product model
+
+            $total_price = $prod_price * $product_quantity;
 
             return response()->json( [
-                'status'=>'200',
-                'message'=>'checkout Details Fetched Successfully'
+                'status' => 200,
+                'message' => 'checkout Details Fetched Successfully',
+                'product' => [
+                    'name' => $product->product_name,
+                    'image' => $product->product_image,
+                    'price' => $prod_price,
+                    'quantity' => $product_quantity,
+                    'color' => $color_value,
+                    'size' => $size_value,
+                    'total' => $total_price,
+                ],
             ] );
-
         } catch ( \Throwable $th ) {
             Log::error( $th );
+            return response()->json( [ 'status' => 500, 'message' => 'Error processing checkout' ] );
         }
     }
 

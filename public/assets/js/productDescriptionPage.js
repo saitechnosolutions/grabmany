@@ -95,11 +95,6 @@ $(document).ready(function () {
 $(document).on("submit", "#single_prod_checkout", function (e) {
     e.preventDefault();
 
-    var checkout_prod_price = $("#checkout_prod_price").val();
-    var user_id = $("#logged_user_id").val();
-    var prod_id = $("#checkout_prod_id").val();
-    var product_quantity = $("#hidden_prod_varient_qty").val() || 1;
-
     var size_value = $("#hidden_prod_varient_size").val();
     var color_value = $("#hidden_prod_varient_color").val();
 
@@ -107,45 +102,131 @@ $(document).on("submit", "#single_prod_checkout", function (e) {
         Swal.fire({
             icon: "warning",
             title: "Select Size & Color",
-            text: "Please select both size and color before adding to wishlist.",
+            text: "Please select both size and color before Proceeding To Checkout",
         });
         return;
     }
 
-    $.ajax({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        url: "/check-out",
-        type: "POST",
-        data: {
-            checkout_prod_price: checkout_prod_price,
-            user_id: user_id,
-            prod_id: prod_id,
-            product_quantity: product_quantity,
-            size_value: size_value,
-            color_value: color_value,
-        },
-        dataType: "JSON",
-        success: function (result) {
-            if (result.status == 200) {
-                $("#staticBackdropcheckout").modal("show");
-            } else {
+    $("#staticBackdropcheckout").modal("show");
+});
+
+$(document).ready(function () {
+    $(".single_checkout_step_two").hide();
+
+    $(document).on("click", "#proceed_second_checkout_step", function () {
+        var checkout_prod_price = $("#checkout_prod_price").val();
+        var user_id = $("#logged_user_id").val();
+        var prod_id = $("#checkout_prod_id").val();
+        var product_quantity = $("#hidden_prod_varient_qty").val() || 1;
+
+        var size_value = $("#hidden_prod_varient_size").val();
+        var color_value = $("#hidden_prod_varient_color").val();
+
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: "/check-out",
+            type: "POST",
+            data: {
+                checkout_prod_price: checkout_prod_price,
+                user_id: user_id,
+                prod_id: prod_id,
+                product_quantity: product_quantity,
+                size_value: size_value,
+                color_value: color_value,
+            },
+            dataType: "JSON",
+            success: function (result) {
+                if (result.status == 200) {
+                    $(".single_checkout_step_one").hide();
+                    $(".single_checkout_step_two").show();
+
+                    let product = result.product;
+
+                    let row = `
+                    <tr class="cart_item">
+                        <td class="product-name">
+                            ${product.name}    
+                        </td>
+                        <td class="product-image">
+                            <img src="https://dashboardgrabmany.saitechnosolutions.co.in/images/${product.image}" alt="${product.name}" style="width: 60px;">
+                        </td>
+                        <td class="product-price">₹${product.price}</td>
+                        <td class="product-image">${product.quantity}</td>
+                        <td class="product-image">${product.color}</td>
+                        <td class="product-image">${product.size}</td>
+                        <td class="product-total text-end"><span class="amount"> ₹${product.total} </span></td>
+                    </tr>
+                    `;
+
+                    $("table.table tbody").append(row);
+
+                    // Update totals
+                    let currentSubtotal =
+                        parseFloat($(".cart_total").text().replace("₹", "")) ||
+                        0;
+                    let newSubtotal =
+                        currentSubtotal + parseFloat(product.total);
+                    $(".cart_total").text(`₹${newSubtotal}`);
+                    $(".total").text(`₹${newSubtotal + 50}`);
+                    $("input[name='cart_total']").val(newSubtotal);
+                    $("input[name='total']").val(newSubtotal + 50);
+
+                    // Get billing and shipping values
+                    const billingHtml = `
+                        <h5>Billing Details</h5>
+                        <p><strong>Name:</strong> ${$(".name_bill").val()}</p>
+                        <p><strong>Email:</strong> ${$(".email_bill").val()}</p>
+                        <p><strong>Phone:</strong> ${$(
+                            ".number_bill"
+                        ).val()}</p>
+                        <p><strong>Address:</strong> ${$(
+                            ".address_bill"
+                        ).val()}, ${$(
+                        ".city_bill option:selected"
+                    ).text()} - ${$(".zip_bill").val()}</p>
+                        <p><strong></strong> ${$(
+                            ".state_bill option:selected"
+                        ).text()}</p>
+                    `;
+
+                    const shippingHtml = `
+                        <h5>Shipping Details</h5>
+                        <p><strong>Name:</strong> ${$(".name_ship").val()}</p>
+                        <p><strong>Email:</strong> ${$(".email_ship").val()}</p>
+                        <p><strong>Phone:</strong> ${$(
+                            ".number_ship"
+                        ).val()}</p>
+                        <p><strong>Address:</strong> ${$(
+                            ".address_ship"
+                        ).val()}, ${$(
+                        ".city_ship option:selected"
+                    ).text()} - ${$(".zip_ship").val()}</p>
+                        <p><strong></strong> ${$(
+                            ".state_ship option:selected"
+                        ).text()} </p>
+                    `;
+
+                    $(".single_check_billing_details").html(billingHtml);
+                    $(".single_check_shipping_details").html(shippingHtml);
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Already Added!",
+                        text: `This item is already in your cart.`,
+                        confirmButtonColor: "#28a745",
+                    });
+                }
+            },
+            error: function (xhr) {
                 Swal.fire({
-                    icon: "warning",
-                    title: "Already Added!",
-                    text: `This item is already in your cart.`,
-                    confirmButtonColor: "#28a745",
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to add item to cart.",
+                    confirmButtonColor: "#dc3545",
                 });
-            }
-        },
-        error: function (xhr) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Failed to add item to cart.",
-                confirmButtonColor: "#dc3545",
-            });
-        },
+            },
+        });
     });
 });

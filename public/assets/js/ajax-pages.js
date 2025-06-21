@@ -319,7 +319,7 @@ $(document).on("change", ".state_ship", function () {
 
 $(document).ready(function () {
     // Initially hide the shipping form
-    $(".ship-form").hide();
+    // $(".ship-form").hide();
 
     $("#ship-to-different-address-checkbox").on("change", function () {
         if ($(this).is(":checked")) {

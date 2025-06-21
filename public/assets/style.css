@@ -3034,8 +3034,8 @@ element.style {
 }
 
 .shibill {
-  box-shadow: rgb(106 106 107 / 18%) 0px 7px 29px 0px;
-  padding: 22px;
+  /* box-shadow: rgb(106 106 107 / 18%) 0px 7px 29px 0px; */
+  /* padding: 22px; */
 }
 
 .sec-pad {

@@ -328,6 +328,43 @@
         .pill-counter-widget .btn:focus {
             box-shadow: none;
         }
+
+        .custom-order-summary {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-order-summary th,
+        .custom-order-summary td {
+            border: 1px solid #dee2e6;
+            vertical-align: middle;
+            padding: 12px;
+        }
+
+        .custom-order-summary th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .custom-order-summary td.text-end,
+        .custom-order-summary th.text-end {
+            text-align: right;
+        }
+
+        .custom-order-summary tfoot tr td,
+        .custom-order-summary tfoot tr th {
+            border-top: none;
+        }
+
+        .custom-order-summary tfoot tr:last-child {
+            border-top: 2px solid #dee2e6;
+        }
+
+        .custom-order-summary .amount {
+            display: inline-block;
+            min-width: 60px;
+            text-align: right;
+        }
     </style>
 
     @if ($product_single)
@@ -492,7 +529,7 @@
                                         <input type="hidden" name="checkout_prod_varient_qty" value=""
                                             id="hidden_prod_varient_qty">
                                         <input type="hidden" name="checkout_prod_id" value="{{ $firstVarient->id }}"
-                                            id="">
+                                            id="checkout_prod_id">
                                         <button type="submit"
                                             class="btn btnTheme btnShop fwEbold text-white md-round p-3">
                                             Buy
@@ -659,116 +696,288 @@
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropcheckoutLabel">Address Details</h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropcheckoutLabel">Order Details</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="checkOutMM" enctype="multipart/form-data">
-                            <div class="row">
-                                <!-- Billing Address -->
-                                <div class="col-md-12 shibill">
-                                    <h5 class="mb-3">Billing Address</h5>
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control name_bill" name="customer_name"
-                                            placeholder="Full Name" value="{{ Auth::user()->name ?? '' }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control address_bill" name="customer_address"
-                                            placeholder="Street Address">
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="email" class="form-control email_bill" name="customer_email"
-                                            placeholder="Email Address" value="{{ Auth::user()->email ?? '' }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="tel" class="form-control number_bill"
-                                            name="customer_phone_number" placeholder="Phone Number"
-                                            value="{{ Auth::user()->phone ?? '' }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <select class="form-control state_bill" name="customer_state">
-                                            <option value="">Select State</option>
-                                            @php $states = App\Models\state::all(); @endphp
-                                            @foreach ($states as $state)
-                                                <option value="{{ $state->id }}">{{ $state->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <select class="form-control city_bill" name="customer_city">
-                                            <option value="">Select City</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control zip_bill" name="customer_postal_code"
-                                            placeholder="Postcode / Zip">
-                                    </div>
+                            <div class="single_checkout_step_one">
+                                @if (Auth::check())
+                                    <div class="row">
+                                        <div class="col-md-12 shibill">
+                                            <h5 class="mb-3">Billing Address</h5>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control name_bill" name="customer_name"
+                                                    placeholder="Full Name" value="{{ Auth::user()->name ?? '' }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control address_bill"
+                                                    name="customer_address" placeholder="Street Address">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="email" class="form-control email_bill"
+                                                    name="customer_email" placeholder="Email Address"
+                                                    value="{{ Auth::user()->email ?? '' }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="tel" class="form-control number_bill"
+                                                    name="customer_phone_number" placeholder="Phone Number"
+                                                    value="{{ Auth::user()->phone ?? '' }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <select class="form-control state_bill" name="customer_state">
+                                                    <option value="">Select State</option>
+                                                    @php $states = App\Models\state::all(); @endphp
+                                                    @foreach ($states as $state)
+                                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <select class="form-control city_bill" name="customer_city">
+                                                    <option value="">Select City</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control zip_bill"
+                                                    name="customer_postal_code" placeholder="Postcode / Zip">
+                                            </div>
 
-                                    <!-- Shipping Address Toggle -->
-                                    <p id="ship-to-different-address">
-                                        <input id="ship-to-different-address-checkbox" type="checkbox"
-                                            name="ship_to_different_address" value="1">
-                                        <label for="ship-to-different-address-checkbox">
-                                            Billing and Shipping Address are Same
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </p>
+                                            <!-- Shipping Address Toggle -->
+                                            <p id="ship-to-different-address">
+                                                <input id="ship-to-different-address-checkbox" type="checkbox"
+                                                    name="ship_to_different_address" value="1">
+                                                <label for="ship-to-different-address-checkbox">
+                                                    Billing and Shipping Address are Same
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </p>
 
-                                    <!-- Shipping Address -->
-                                    <div class="ship-form">
-                                        <h5 class="mb-3">Shipping Address</h5>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control name_ship"
-                                                name="customer_shippingname" placeholder="Full Name">
+                                            <!-- Shipping Address -->
+                                            <div class="ship-form">
+                                                <h5 class="mb-3">Shipping Address</h5>
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control name_ship"
+                                                        name="customer_shippingname" placeholder="Full Name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control address_ship"
+                                                        name="customer_shippingaddress" placeholder="Street Address">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="email" class="form-control email_ship"
+                                                        name="customer_shippingemail" placeholder="Email Address">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="tel" class="form-control number_ship"
+                                                        name="customer_shippingphone" placeholder="Phone Number">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <select class="form-control state_ship" id="state_ship"
+                                                        name="customer_shippingstate">
+                                                        <option value="">Select State</option>
+                                                        @foreach ($states as $state)
+                                                            <option value="{{ $state->id }}">{{ $state->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <select class="form-control city_ship" id="city_ship"
+                                                        name="customer_shippingcity">
+                                                        <option value="">Select City</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control zip_ship"
+                                                        name="customer_shippingpostal_code" placeholder="Postcode / Zip">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control address_ship"
-                                                name="customer_shippingaddress" placeholder="Street Address">
+
+                                    </div>
+                                @else
+                                    <div class="row p-3">
+                                        <div class="col-md-6 shibill">
+                                            <h5 class="mb-3">Billing Address</h5>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control name_bill" name="customer_name"
+                                                    placeholder="Full Name" value="">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="email" class="form-control email_bill"
+                                                    name="customer_email" placeholder="Email Address" value="">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="tel" class="form-control number_bill"
+                                                    name="customer_phone_number" placeholder="Phone Number"
+                                                    value="">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control address_bill"
+                                                    name="customer_address" placeholder="Street Address">
+                                            </div>
+                                            <div class="mb-3">
+                                                <select class="form-control state_bill" name="customer_state">
+                                                    <option value="">Select State</option>
+                                                    @php $states = App\Models\state::all(); @endphp
+                                                    @foreach ($states as $state)
+                                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <select class="form-control city_bill" name="customer_city">
+                                                    <option value="">Select City</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control zip_bill"
+                                                    name="customer_postal_code" placeholder="Postcode / Zip">
+                                            </div>
+
+                                            <!-- Shipping Address Toggle -->
+                                            <p id="ship-to-different-address">
+                                                <input id="ship-to-different-address-checkbox" type="checkbox"
+                                                    name="ship_to_different_address" value="1">
+                                                <label for="ship-to-different-address-checkbox">
+                                                    Billing and Shipping Address are Same
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </p>
+
                                         </div>
-                                        <div class="mb-3">
-                                            <input type="email" class="form-control email_ship"
-                                                name="customer_shippingemail" placeholder="Email Address">
+
+                                        <div class="col-lg-6">
+                                            <div class="ship-form">
+                                                <h5 class="mb-3">Shipping Address</h5>
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control name_ship"
+                                                        name="customer_shippingname" placeholder="Full Name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="email" class="form-control email_ship"
+                                                        name="customer_shippingemail" placeholder="Email Address">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="tel" class="form-control number_ship"
+                                                        name="customer_shippingphone" placeholder="Phone Number">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control address_ship"
+                                                        name="customer_shippingaddress" placeholder="Street Address">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <select class="form-control state_ship" id="state_ship"
+                                                        name="customer_shippingstate">
+                                                        <option value="">Select State</option>
+                                                        @foreach ($states as $state)
+                                                            <option value="{{ $state->id }}">{{ $state->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <select class="form-control city_ship" id="city_ship"
+                                                        name="customer_shippingcity">
+                                                        <option value="">Select City</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control zip_ship"
+                                                        name="customer_shippingpostal_code" placeholder="Postcode / Zip">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <input type="tel" class="form-control number_ship"
-                                                name="customer_shippingphone" placeholder="Phone Number">
-                                        </div>
-                                        <div class="mb-3">
-                                            <select class="form-control state_ship" id="state_ship"
-                                                name="customer_shippingstate">
-                                                <option value="">Select State</option>
-                                                @foreach ($states as $state)
-                                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <select class="form-control city_ship" id="city_ship"
-                                                name="customer_shippingcity">
-                                                <option value="">Select City</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control zip_ship"
-                                                name="customer_shippingpostal_code" placeholder="Postcode / Zip">
-                                        </div>
+                                    </div>
+                                @endif
+
+
+                                <!-- Submit Button -->
+                                <div class="row mt-3">
+                                    <div class="col text-center">
+                                        <button class="btn btnTheme  fwEbold text-white py-3 px-4" type="button"
+                                            id="proceed_second_checkout_step">Proceed
+                                            to
+                                            Checkout</button>
                                     </div>
                                 </div>
-
                             </div>
 
-                            <!-- Submit Button -->
-                            <div class="row mt-3">
-                                <div class="col text-center">
-                                    <button class="btn btnTheme  fwEbold text-white py-3 px-4" type="submit">Proceed to
-                                        Checkout</button>
+                            <div class="single_checkout_step_two">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="your-order mb-30">
+                                            <div class="row mt-2 mb-4">
+                                                <div class="col-lg-6 single_check_billing_details">
+
+                                                </div>
+                                                <div class="col-lg-6 single_check_shipping_details">
+
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <table class="table table-bordered custom-order-summary">
+                                                    <thead class="align-middle">
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            <th>Image</th>
+                                                            <th>Product Price</th>
+                                                            <th>Quantity</th>
+                                                            <th>Color</th>
+                                                            <th>Size</th>
+                                                            <th>Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- Dynamic rows will be appended via JavaScript -->
+                                                    </tbody>
+                                                    <tfoot class="align-middle">
+                                                        <tr style="border: none;">
+                                                            <td colspan="5" style="border: none"></td>
+                                                            <th class="text-center">Subtotal</th>
+                                                            <td class="text-end">
+                                                                <span class="amount cart_total">₹0</span>
+                                                                <input type="hidden" class="amount" name="cart_total"
+                                                                    value="">
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border: none;">
+                                                            <td colspan="5" style="border: none"></td>
+                                                            <th class="text-center">Shipping</th>
+                                                            <td class="text-end">
+                                                                <span class="amount shipingamt"
+                                                                    id="shippingamt">₹50</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border-top: none;">
+                                                            <td colspan="5" style="border: none"></td>
+                                                            <th class="text-center">
+                                                                <h5 class="m-0">Order Total</h5>
+                                                            </th>
+                                                            <td class="text-end">
+                                                                <h5 class="m-0"><strong><span
+                                                                            class="amount total">₹0</span></strong></h5>
+                                                                <input type="hidden" class="amount total-hidden"
+                                                                    name="total" value="">
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-lg-4"></div>
+                                                <div class="col-lg-4 text-center">
+                                                    <button class="btn btnTheme  fwEbold text-white py-3 px-4"
+                                                        type="submit" style="max-width: 230px">Pay Now</button>
+                                                </div>
+                                                <div class="col-lg-4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
                     </div>
                 </div>
             </div>
@@ -909,7 +1118,6 @@
                 $('.prod_color_select').removeClass('active');
                 $(this).addClass('active');
                 var color_value = $(".prod_color_select.active").data("color");
-                alert(color_value);
                 $('#hidden_prod_varient_color').val(color_value);
             });
         });
