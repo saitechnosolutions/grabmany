@@ -27,7 +27,6 @@ class LoginController extends Controller {
             $user->email = $request->input( 'email' );
             $user->phone_number = $request->input( 'phone' );
             $user->password = Hash::Make( $request->input( 'password' ) );
-            $user->mode = 'loggin';
 
             $user->save();
 
@@ -148,5 +147,57 @@ class LoginController extends Controller {
     public function getCities( $state_id ) {
         $cities = city::where( 'state_id', $state_id )->get();
         return response()->json( $cities );
+    }
+
+    public function forgotPasswordindex() {
+        try {
+            return view( 'pages.fogot_pass' );
+        } catch ( \Throwable $th ) {
+            Log::error( $th );
+        }
+    }
+
+    public function forgotPasswordcheck( Request $request ) {
+        try {
+            $phone = $request->phone;
+
+            $existing_user = User::where( 'phone_number', $phone )->first();
+
+            if ( $existing_user ) {
+                return response()->json( [
+                    'status'=>'200',
+                    'message'=>'user Found',
+                    'userid'=> $existing_user->id,
+                ] );
+            } else {
+                return response()->json( [
+                    'status'=>'404',
+                    'message'=>'user Not Found',
+                ] );
+            }
+        } catch ( \Throwable $th ) {
+            Log::error( $th );
+        }
+    }
+
+    public function forgotPasswordreset( Request $request ) {
+        try {
+
+            $password = $request->password;
+            $userid = $request->userid;
+
+            $existing_user = User::find( $userid );
+
+            $existing_user->update( [
+                'password' => Hash::Make( $password )
+            ] );
+
+            return response()->json( [
+                'status'=>'200',
+                'message'=>'Password Reset Success',
+            ] );
+        } catch ( \Throwable $th ) {
+            Log::error( $th );
+        }
     }
 }

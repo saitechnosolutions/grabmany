@@ -582,6 +582,18 @@ class CheckoutController extends Controller {
                 'area_name' => $areaname,
             ] );
 
+            $orderuseraddresid = DB::table( 'user_addresses' )
+            ->insertGetId( [
+                'guest_user_id' => $userId,
+                'address_first_name' => $firstname,
+                'address_phone_number' => $phone,
+                'address_line_one' => $address,
+                'pincode' => $pincode,
+                'state' => $state,
+                'city' => $city,
+                'area_name' => $areaname,
+            ] );
+
             $order = ProductOrder::query()->where( 'order_id', $orderId )->first();
 
             $productId = str_replace( "'", '"', $request->single_check_product_id );

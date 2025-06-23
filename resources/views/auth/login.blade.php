@@ -228,7 +228,7 @@
                                 <div class="remember-me">
                                     <a href="/register">Create New User?</a>
                                 </div>
-                                <a href="#">Forget Password?</a>
+                                <a href="/auth/forgot-password">Forget Password?</a>
                             </div>
                             <div class="login-btn">
                                 <button type="submit" class="btn-submit">Login Now <i

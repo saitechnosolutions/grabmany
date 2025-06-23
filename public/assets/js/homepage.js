@@ -209,3 +209,108 @@ $(document).on("click", ".cartModal_submit_btn", function (e) {
         },
     });
 });
+
+$(document).ready(function () {
+    $("#second_stage_forget").hide();
+    $(document).on("submit", "#forget_password_email_submit", function (e) {
+        e.preventDefault();
+
+        var phone = $("#forget_pass_email_input").val();
+
+        if (!phone) {
+            Swal.fire({
+                icon: "warning",
+                title: "Email Is Required",
+                text: "Please Enter the Registered email to proceed with the password reset",
+            });
+            return;
+        }
+
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: "/auth/forget-check",
+            type: "POST",
+            data: {
+                phone: phone,
+            },
+            dataType: "JSON",
+            success: function (result) {
+                $("#first_stage_forget").hide();
+                $("#second_stage_forget").show();
+
+                $("#forget_pass_hidden_user").val(result.userid);
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "User Not Found",
+                    confirmButtonColor: "#dc3545",
+                });
+            },
+        });
+    });
+
+    $(document).on("submit", "#forget_password_password_submit", function (e) {
+        e.preventDefault();
+
+        let password = $("#forget_pass_password_input").val();
+        let userid = $("#forget_pass_hidden_user").val();
+
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: "/auth/reset-password",
+            type: "POST",
+            data: {
+                password: password,
+                userid: userid,
+            },
+            dataType: "JSON",
+            success: function (result) {
+                if (result.status == 200) {
+                    Swal.fire("Success", "Password reset Success", "success");
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        },
+                    });
+
+                    Toast.fire({
+                        icon: "success",
+                        title: "Password reset Success",
+                    });
+
+                    setTimeout(function () {
+                        window.location.href = "/login";
+                    }, 1500);
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Error",
+                        text: `Something Went Wrong`,
+                        confirmButtonColor: "#28a745",
+                    });
+                }
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to add item to cart.",
+                    confirmButtonColor: "#dc3545",
+                });
+            },
+        });
+    });
+});

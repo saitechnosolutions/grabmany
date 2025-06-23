@@ -70,5 +70,8 @@ Route::POST('/order/fetchordersummary',[productController::class,'fetchordersumm
 Route::POST('/checkout/create-razor',[CheckoutController::class,'createSingleRazorpayOrder']);
 Route::POST('/checkout/create-order',[CheckoutController::class,'createneworder']);
 
+Route::GET('/auth/forgot-password',[LoginController::class,'forgotPasswordindex']);
+Route::POST('/auth/forget-check',[LoginController::class,'forgotPasswordcheck']);
+Route::POST('/auth/reset-password',[LoginController::class,'forgotPasswordreset']);
 
 //
