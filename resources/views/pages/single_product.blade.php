@@ -2,7 +2,6 @@
 @section('main-content')
 
     <style>
-        
         .selectable-card {
             cursor: pointer;
             border: 1px solid #ccc;
@@ -427,7 +426,8 @@
                                     @foreach ($desc1 as $des)
                                         <div class="swiper-slide easyzoom easyzoom--overlay is-ready">
                                             <a href="{{ env('MAIN_URL') }}images/{{ $des->product_child_image }}">
-                                                <img src="{{ env('MAIN_URL') }}images/{{ $des->product_child_image }}" alt="">
+                                                <img src="{{ env('MAIN_URL') }}images/{{ $des->product_child_image }}"
+                                                    alt="">
                                             </a>
                                         </div>
                                     @endforeach
@@ -440,7 +440,8 @@
                                 <div class="swiper-wrapper">
                                     @foreach ($desc1 as $des)
                                         <div class="swiper-slide thump_cus_img">
-                                            <img src="{{ env('MAIN_URL') }}images/{{ $des->product_child_image }}" alt="">
+                                            <img src="{{ env('MAIN_URL') }}images/{{ $des->product_child_image }}"
+                                                alt="">
                                         </div>
                                     @endforeach
                                 </div>
@@ -465,18 +466,20 @@
                                 @if (Auth::check())
                                     <button class="btn btn-danger p-2" id="add_new_wishlist_submit_prod"
                                         data-product_id="{{ $product_single->id }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" class="lucide lucide-heart-icon lucide-heart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-heart-icon lucide-heart">
                                             <path
                                                 d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                                         </svg>
                                     </button>
                                 @else
                                     <a href="/login" class="btn btn-danger p-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" class="lucide lucide-heart-icon lucide-heart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-heart-icon lucide-heart">
                                             <path
                                                 d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                                         </svg></a>
@@ -486,8 +489,8 @@
                         </div>
 
 
-                        <strong class="price d-block mb-5 text-green">₹
-                            {{ $firstVarient->mrp_price }}</strong>
+                        <strong class="price d-block mb-5 text-green" id="prod_variant_append_price">₹
+                            {{ $firstVarient->offer_price }}</strong>
 
                         <div class="d-flex flex-wrap gap-4" style="align-items: baseline">
                             <div class="fw-bold text-uppercase me-2" style="margin-right:10px;">Size:
@@ -519,7 +522,8 @@
                         <div class="pill-counter-widget">
                             <div class="input-group">
                                 <button class="btn btn-outline-secondary" type="button" id="decreaseBtn">−</button>
-                                <input type="number" class="form-control" id="quantityInput" value="1" min="0" max="50">
+                                <input type="number" class="form-control" id="quantityInput" value="1" min="0"
+                                    max="50">
                                 <button class="btn btn-outline-secondary" type="button" id="increaseBtn">+</button>
                             </div>
                         </div>
@@ -534,17 +538,20 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <form action="" method="post" id="single_prod_checkout">
-                                        <input type="hidden" name="checkout_prod_price" value="{{ $firstVarient->mrp_price }}"
-                                            id="checkout_prod_price">
-                                        <input type="hidden" name="checkout_prod_varient_id" value="" id="hidden_prod_varient_id">
+                                        <input type="hidden" name="checkout_prod_price"
+                                            value="{{ $firstVarient->offer_price }}" id="checkout_prod_price">
+                                        <input type="hidden" name="checkout_prod_varient_id" value=""
+                                            id="hidden_prod_varient_id">
                                         <input type="hidden" name="checkout_prod_varient_color" value=""
                                             id="hidden_prod_varient_color">
                                         <input type="hidden" name="checkout_prod_varient_size" value=""
                                             id="hidden_prod_varient_size">
-                                        <input type="hidden" name="checkout_prod_varient_qty" value="" id="hidden_prod_varient_qty">
+                                        <input type="hidden" name="checkout_prod_varient_qty" value=""
+                                            id="hidden_prod_varient_qty">
                                         <input type="hidden" name="checkout_prod_id" value="{{ $product_single->id }}"
                                             id="checkout_prod_id">
-                                        <button type="submit" class="btn btnTheme btnShop fwEbold text-white md-round p-3">
+                                        <button type="submit"
+                                            class="btn btnTheme btnShop fwEbold text-white md-round p-3">
                                             Buy
                                             <i class="fas fa-arrow-right ml-2"></i>
                                         </button>
@@ -558,17 +565,20 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <form action="" method="post" id="single_prod_checkout">
-                                        <input type="hidden" name="checkout_prod_price" value="{{ $firstVarient->mrp_price }}"
-                                            id="checkout_prod_price">
-                                        <input type="hidden" name="checkout_prod_varient_id" value="" id="hidden_prod_varient_id">
+                                        <input type="hidden" name="checkout_prod_price"
+                                            value="{{ $firstVarient->offer_price }}" id="checkout_prod_price">
+                                        <input type="hidden" name="checkout_prod_varient_id" value=""
+                                            id="hidden_prod_varient_id">
                                         <input type="hidden" name="checkout_prod_varient_color" value=""
                                             id="hidden_prod_varient_color">
                                         <input type="hidden" name="checkout_prod_varient_size" value=""
                                             id="hidden_prod_varient_size">
-                                        <input type="hidden" name="checkout_prod_varient_qty" value="" id="hidden_prod_varient_qty">
+                                        <input type="hidden" name="checkout_prod_varient_qty" value=""
+                                            id="hidden_prod_varient_qty">
                                         <input type="hidden" name="checkout_prod_id" value="{{ $product_single->id }}"
                                             id="checkout_prod_id">
-                                        <button type="submit" class="btn btnTheme btnShop fwEbold text-white md-round p-3">
+                                        <button type="submit"
+                                            class="btn btnTheme btnShop fwEbold text-white md-round p-3">
                                             Buy
                                             <i class="fas fa-arrow-right ml-2"></i>
                                         </button>
@@ -683,8 +693,8 @@
                     <div class="card" style="border-radius: 15px; width: 270px;">
                         <div class="card-header bg-transparent text-right">
                             <a href="/product-details/{{ $product->prod_unique_name }}">
-                                <img src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}" class="card-img-top"
-                                    alt="Prod Image">
+                                <img src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}"
+                                    class="card-img-top" alt="Prod Image">
                             </a>
                         </div>
 
@@ -724,8 +734,8 @@
 
         {{-- *CHECKOUT MODAL --}}
 
-        <div class="modal fade" id="staticBackdropcheckout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropcheckoutLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdropcheckout" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropcheckoutLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -744,16 +754,18 @@
                                                     placeholder="Full Name" value="{{ Auth::user()->name ?? '' }}">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control address_bill" name="customer_address"
-                                                    placeholder="Street Address">
+                                                <input type="text" class="form-control address_bill"
+                                                    name="customer_address" placeholder="Street Address">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="email" class="form-control email_bill" name="customer_email"
-                                                    placeholder="Email Address" value="{{ Auth::user()->email ?? '' }}">
+                                                <input type="email" class="form-control email_bill"
+                                                    name="customer_email" placeholder="Email Address"
+                                                    value="{{ Auth::user()->email ?? '' }}">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="tel" class="form-control number_bill" name="customer_phone_number"
-                                                    placeholder="Phone Number" value="{{ Auth::user()->phone ?? '' }}">
+                                                <input type="tel" class="form-control number_bill"
+                                                    name="customer_phone_number" placeholder="Phone Number"
+                                                    value="{{ Auth::user()->phone ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <select class="form-control state_bill" name="customer_state">
@@ -770,8 +782,8 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control zip_bill" name="customer_postal_code"
-                                                    placeholder="Postcode / Zip">
+                                                <input type="text" class="form-control zip_bill"
+                                                    name="customer_postal_code" placeholder="Postcode / Zip">
                                             </div>
 
                                             <!-- Shipping Address Toggle -->
@@ -836,16 +848,17 @@
                                                     placeholder="Full Name" value="">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="email" class="form-control email_bill" name="customer_email"
-                                                    placeholder="Email Address" value="">
+                                                <input type="email" class="form-control email_bill"
+                                                    name="customer_email" placeholder="Email Address" value="">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="tel" class="form-control number_bill" name="customer_phone_number"
-                                                    placeholder="Phone Number" value="">
+                                                <input type="tel" class="form-control number_bill"
+                                                    name="customer_phone_number" placeholder="Phone Number"
+                                                    value="">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control address_bill" name="customer_address"
-                                                    placeholder="Street Address">
+                                                <input type="text" class="form-control address_bill"
+                                                    name="customer_address" placeholder="Street Address">
                                             </div>
                                             <div class="mb-3">
                                                 <select class="form-control state_bill" name="customer_state">
@@ -862,8 +875,8 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control zip_bill" name="customer_postal_code"
-                                                    placeholder="Postcode / Zip">
+                                                <input type="text" class="form-control zip_bill"
+                                                    name="customer_postal_code" placeholder="Postcode / Zip">
                                             </div>
 
                                             <!-- Shipping Address Toggle -->
@@ -976,7 +989,8 @@
                                                             <td colspan="5" style="border: none"></td>
                                                             <th class="text-center">Shipping</th>
                                                             <td class="text-end">
-                                                                <span class="amount shipingamt" id="shippingamt">₹50</span>
+                                                                <span class="amount shipingamt"
+                                                                    id="shippingamt">₹50</span>
                                                             </td>
                                                         </tr>
                                                         <tr style="border-top: none;">
@@ -1016,15 +1030,17 @@
                                             @else
                                                 <input type="hidden" name="single_check_product_user_id" value=""
                                                     id="single_check_product_user_id">
-                                                <input type="hidden" name="is_guest_user" id="is_guest_user" value="1">
+                                                <input type="hidden" name="is_guest_user" id="is_guest_user"
+                                                    value="1">
                                             @endif
 
 
                                             <div class="row mt-3">
                                                 <div class="col-lg-4"></div>
                                                 <div class="col-lg-4 text-center">
-                                                    <button class="btn btnTheme  fwEbold text-white py-3 px-4" type="submit"
-                                                        style="max-width: 230px" id="single_checkout_pay_now_btn">Pay
+                                                    <button class="btn btnTheme  fwEbold text-white py-3 px-4"
+                                                        type="submit" style="max-width: 230px"
+                                                        id="single_checkout_pay_now_btn">Pay
                                                         Now</button>
                                                 </div>
                                                 <div class="col-lg-4"></div>
@@ -1043,8 +1059,8 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function () {
-            $(document).on("click", '#add_new_wishlist_submit_prod', function () {
+        $(document).ready(function() {
+            $(document).on("click", '#add_new_wishlist_submit_prod', function() {
 
                 var product_main_id = $(this).data("product_id");
                 var user_id = $("#logged_user_id").val();
@@ -1078,7 +1094,7 @@
                         size_value: size_value,
                         color_value: color_value,
                     },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status == 200) {
                             Swal.fire("Success", "Product Added To Wishlist", "success");
 
@@ -1099,7 +1115,7 @@
                                 title: "Product Added To Wishlist",
                             });
 
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 window.location.reload();
                             }, 1500);
                         } else {
@@ -1116,11 +1132,11 @@
 
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.available_color_title').hide();
 
             // Handle size selection
-            $(document).on('click', '.prod_size_select', function () {
+            $(document).on('click', '.prod_size_select', function() {
                 // Remove previous selection
                 $('.prod_size_select').removeClass('active');
                 $(this).addClass('active');
@@ -1141,14 +1157,16 @@
                         size_value: size_value,
                         prod_id: prod_id,
                     },
-                    success: function (response) {
+                    success: function(response) {
                         let colorHtml = '';
 
                         if (response.status == 200 && response.products.length > 0) {
-                            $.each(response.products, function (index, product) {
-                                colorHtml += `
+                            $.each(response.products, function(index, product) {
+                                colorHtml +=
+                                    `
                                                                                                                             <div class="selectable-card rounded prod_color_select"
                                                                                                                                 data-color="${product.color_value}"
+                                                                                                                                data-product="${product.product_id}"
                                                                                                                                 style="
                                                                                                                                     width: 50px;
                                                                                                                                     height: 50px;
@@ -1170,17 +1188,91 @@
             });
 
             // Handle color selection
-            $(document).on('click', '.prod_color_select', function () {
+            $(document).on('click', '.prod_color_select', function() {
                 $('.prod_color_select').removeClass('active');
                 $(this).addClass('active');
                 var color_value = $(".prod_color_select.active").data("color");
+                var size_value = $(".prod_size_select.active").data("size_value");
+                var product_id = $(".prod_color_select.active").data("product");
+
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    },
+                });
+
+                $.ajax({
+                    url: "/product/fetch-other-variant",
+                    type: "POST",
+                    data: {
+                        color_value: color_value,
+                        size_value: size_value,
+                        product_id: product_id,
+                    },
+                    success: function(response) {
+                        let colorHtml = '';
+                        let galleryTopHtml = '';
+                        let galleryThumbsHtml = '';
+
+                        if (response.status == 200 && response.childImages.length > 0) {
+                            // Create color boxes
+                            $.each(response.childImages, function(index, product) {
+
+                                let imgUrl =
+                                    `http://127.0.0.1:1000/images/${product.product_child_image}`;
+
+                                // Create main gallery slides
+                                galleryTopHtml += `
+                                    <div class="swiper-slide easyzoom easyzoom--overlay is-ready">
+                                        <a href="${imgUrl}">
+                                            <img src="${imgUrl}" alt="">
+                                        </a>
+                                    </div>
+                                `;
+
+                                // Create thumbnail slides
+                                galleryThumbsHtml += `
+                                <div class="swiper-slide thump_cus_img mr-2">
+                                    <img src="${imgUrl}" alt="">
+                                </div>
+                            `;
+                            });
+
+                            $('.available_color_title').show();
+                            $('#hidden_prod_varient_size').val(size_value);
+                            $('#prod_variant_append_price').text("₹" + response.variantDetails
+                                .offer_price);
+                        } else {
+                            colorHtml = `<div class="text-danger">No Available Colors</div>`;
+                            $('.available_color_title').hide();
+                        }
+
+                        // Append color options
+                        // $('.prod_size_append').html(colorHtml);
+
+                        // Update hidden input
+                        $('#hidden_prod_varient_color').val(color_value);
+
+
+                        // Replace Swiper gallery slides
+                        $('.gallery-top .swiper-wrapper').html(galleryTopHtml);
+                        $('.gallery-thumbs .swiper-wrapper').html(galleryThumbsHtml);
+
+                        // Reinitialize Swiper if needed
+                        if (window.galleryTopSwiper && window.galleryThumbsSwiper) {
+                            window.galleryTopSwiper.update();
+                            window.galleryThumbsSwiper.update();
+                        }
+                    }
+                });
+
                 $('#hidden_prod_varient_color').val(color_value);
             });
         });
     </script>
 
     <script>
-        $(document).on("click", "#addtocart", function (e) {
+        $(document).on("click", "#addtocart", function(e) {
             e.preventDefault();
 
             var product_id = $(this).data("product_id");
@@ -1214,7 +1306,7 @@
                     color_value: color_value,
                 },
                 dataType: "JSON",
-                success: function (result) {
+                success: function(result) {
                     if (result.status == 200) {
                         Swal.fire("Success", "Product Added To Cart", "success");
 
@@ -1235,7 +1327,7 @@
                             title: "Product Added To Cart",
                         });
 
-                        setTimeout(function () {
+                        setTimeout(function() {
                             window.location.reload();
                         }, 1500);
                     } else {
@@ -1247,7 +1339,7 @@
                         });
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     Swal.fire({
                         icon: "error",
                         title: "Error",

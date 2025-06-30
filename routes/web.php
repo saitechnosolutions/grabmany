@@ -80,3 +80,5 @@ Route::POST('/auth/reset-password', [LoginController::class, 'forgotPasswordrese
 
 //
 Route::post('/contactmail', [PHPMailerController::class, 'contact']);
+
+Route::POST('/product/fetch-other-variant',[productController::class,'fetchOtherVariant']);
