@@ -220,62 +220,69 @@
                                 <span><i class="fa fa-user"></i></span>
                                 <input type="text" name="phone" placeholder="Phone" required>
                             </div>
-                            <div class="login-input">
+
+                            <div class="login-input password-wrapper" style="position: relative;">
                                 <span><i class="fa fa-key"></i></span>
-                                <input type="password" name="password" placeholder="Password" required>
+                                <input type="password" id="password" name="password" placeholder="Password" required>
+                                <i class="fa fa-eye toggle-password" id="togglePassword"
+                                    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
                             </div>
+
                             <div class="remember-forget">
                                 <div class="remember-me">
                                     <a href="/register">Create New User?</a>
                                 </div>
                                 <a href="/auth/forgot-password">Forget Password?</a>
                             </div>
+
                             <div class="login-btn">
-                                <button type="submit" class="btn-submit">Login Now <i
+                                <button type="submit" class="btn-submit">
+                                    Login Now <i class="fa fa-long-arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="col-lg-12 col-md-12 col-12">
+                <div class="register-section">
+                    <div class="register-box">
+                        <div class="register-icon">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div class="register-content">
+                            <h4>Sign Up</h4>
+                            <p>Create your account to enjoy all the features.</p>
+                        </div>
+                        <form action="/register" method="POST">
+                            @csrf
+                            <div class="register-input">
+                                <span><i class="fa fa-user"></i></span>
+                                <input type="text" name="name" placeholder="Full Name" required>
+                            </div>
+                            <div class="register-input">
+                                <span><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="register-input">
+                                <span><i class="fa fa-phone"></i></span>
+                                <input type="text" name="phone" placeholder="Phone" required>
+                            </div>
+                            <div class="register-input">
+                                <span><i class="fa fa-key"></i></span>
+                                <input type="password" name="password" placeholder="Password" required>
+                            </div>
+                            <div class="have-account">
+                                <a href="#">Already Have an Account?</a>
+                            </div>
+                            <div class="register-btn">
+                                <button type="submit" class="btn-submit">Register Now <i
                                         class="fa fa-long-arrow-right"></i></button>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-            {{-- <div class="col-lg-12 col-md-12 col-12">
-            <div class="register-section">
-            <div class="register-box">
-                <div class="register-icon">
-                    <i class="fa fa-lock"></i>
-                </div>
-                <div class="register-content">
-                    <h4>Sign Up</h4>
-                    <p>Create your account to enjoy all the features.</p>
-                </div>
-                <form action="/register" method="POST">
-                    @csrf
-                    <div class="register-input">
-                        <span><i class="fa fa-user"></i></span>
-                        <input type="text" name="name" placeholder="Full Name" required>
-                    </div>
-                    <div class="register-input">
-                        <span><i class="fa fa-envelope"></i></span>
-                        <input type="email" name="email" placeholder="Email" required>
-                    </div>
-                    <div class="register-input">
-                        <span><i class="fa fa-phone"></i></span>
-                        <input type="text" name="phone" placeholder="Phone" required>
-                    </div>
-                    <div class="register-input">
-                        <span><i class="fa fa-key"></i></span>
-                        <input type="password" name="password" placeholder="Password" required>
-                    </div>
-                    <div class="have-account">
-                        <a href="#">Already Have an Account?</a>
-                    </div>
-                    <div class="register-btn">
-                        <button type="submit" class="btn-submit">Register Now <i
-                                class="fa fa-long-arrow-right"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
             </div> --}}
         </div>
         <!-- Login Section -->
@@ -291,14 +298,14 @@
         const loginForm = document.getElementById("loginForm");
         const registerForm = document.getElementById("registerForm");
 
-        loginBtn.onclick = function() {
+        loginBtn.onclick = function () {
             loginBtn.classList.add("active");
             registerBtn.classList.remove("active");
             loginForm.classList.add("active");
             registerForm.classList.remove("active");
         };
 
-        registerBtn.onclick = function() {
+        registerBtn.onclick = function () {
             registerBtn.classList.add("active");
             loginBtn.classList.remove("active");
             registerForm.classList.add("active");
@@ -309,38 +316,38 @@
     <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
     <script>
         const addValidator = new JustValidate("#loginform", {
-                validateBeforeSubmitting: true,
+            validateBeforeSubmitting: true,
 
-            })
+        })
 
 
             .addField('#log_phone', [{
-                    rule: 'required',
-                    errorMessage: "Mobile Number is required",
-                },
-                {
-                    rule: 'minLength',
-                    value: 10,
-                    message: 'Phone number must be min 10 numbers.',
-                },
-                {
-                    rule: 'maxLength',
-                    value: 10,
-                    message: 'Phone number must be max 10 numbers.',
-                },
-                {
-                    rule: 'customRegexp',
-                    value: /^[0-9]+$/,
-                    errorMessage: 'Phone number should  contain numbers'
-                }
+                rule: 'required',
+                errorMessage: "Mobile Number is required",
+            },
+            {
+                rule: 'minLength',
+                value: 10,
+                message: 'Phone number must be min 10 numbers.',
+            },
+            {
+                rule: 'maxLength',
+                value: 10,
+                message: 'Phone number must be max 10 numbers.',
+            },
+            {
+                rule: 'customRegexp',
+                value: /^[0-9]+$/,
+                errorMessage: 'Phone number should  contain numbers'
+            }
 
             ])
 
 
             .addField('#log_password', [{
-                    rule: 'required',
+                rule: 'required',
 
-                },
+            },
 
 
             ])
@@ -352,66 +359,66 @@
     </script>
     <script>
         const addValidator1 = new JustValidate("#registerform", {
-                validateBeforeSubmitting: true,
+            validateBeforeSubmitting: true,
 
-            })
+        })
             .addField("#reg_name", [{
-                    rule: "required",
-                    errorMessage: "Name is required",
-                },
-                {
-                    rule: 'minLength',
-                    value: 3,
-                    errorMessage: '*Name should be at least 3 characters long',
-                },
-                {
-                    rule: 'maxLength',
-                    value: 30,
-                    errorMessage: '*Name should be at maximum 30 characters long',
-                },
-                {
-                    rule: 'customRegexp',
-                    value: /^[a-zA-Z\s.]+$/,
-                    errorMessage: '*Name should not contain numbers or symbols'
-                }
+                rule: "required",
+                errorMessage: "Name is required",
+            },
+            {
+                rule: 'minLength',
+                value: 3,
+                errorMessage: '*Name should be at least 3 characters long',
+            },
+            {
+                rule: 'maxLength',
+                value: 30,
+                errorMessage: '*Name should be at maximum 30 characters long',
+            },
+            {
+                rule: 'customRegexp',
+                value: /^[a-zA-Z\s.]+$/,
+                errorMessage: '*Name should not contain numbers or symbols'
+            }
             ])
             .addField('#reg_email', [{
-                    rule: 'required',
-                    errorMessage: "Email is required",
-                },
-                {
-                    rule: 'email',
-                },
+                rule: 'required',
+                errorMessage: "Email is required",
+            },
+            {
+                rule: 'email',
+            },
 
             ])
 
             .addField('#reg_phone', [{
-                    rule: 'required',
-                    errorMessage: "Mobile Number is required",
-                },
-                {
-                    rule: 'minLength',
-                    value: 10,
-                    message: 'Phone number must be min 10 numbers.',
-                },
-                {
-                    rule: 'maxLength',
-                    value: 10,
-                    message: 'Phone number must be max 10 numbers.',
-                },
-                {
-                    rule: 'customRegexp',
-                    value: /^[0-9]+$/,
-                    errorMessage: 'Phone number should  contain numbers'
-                }
+                rule: 'required',
+                errorMessage: "Mobile Number is required",
+            },
+            {
+                rule: 'minLength',
+                value: 10,
+                message: 'Phone number must be min 10 numbers.',
+            },
+            {
+                rule: 'maxLength',
+                value: 10,
+                message: 'Phone number must be max 10 numbers.',
+            },
+            {
+                rule: 'customRegexp',
+                value: /^[0-9]+$/,
+                errorMessage: 'Phone number should  contain numbers'
+            }
 
             ])
 
 
             .addField('#reg_password', [{
-                    rule: 'required',
+                rule: 'required',
 
-                },
+            },
 
             ])
 
@@ -423,7 +430,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
-        $(".toggle-password").click(function() {
+        $(".toggle-password").click(function () {
             $(this).toggleClass("field-icon");
             var input = $($(this).attr("toggle"));
             if (input.attr("type") == "password") {
@@ -433,4 +440,19 @@
             }
         });
     </script>
+    <script>
+        const togglePassword = document.querySelector("#togglePassword");
+        const passwordField = document.querySelector("#password");
+
+        togglePassword.addEventListener("click", function () {
+            // Toggle type
+            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+            passwordField.setAttribute("type", type);
+
+            // Toggle icon
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+        });
+    </script>
+
 @endsection

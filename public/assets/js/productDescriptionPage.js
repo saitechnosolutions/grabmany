@@ -1,18 +1,18 @@
-$(document).ready(function () {
-    function getOrCreateGuestId() {
-        let guestId = localStorage.getItem("guest_user_id");
+// $(document).ready(function () {
+//     function getOrCreateGuestId() {
+//         let guestId = localStorage.getItem("guest_user_id");
 
-        if (!guestId) {
-            guestId = crypto.randomUUID(); // Still uses native API
-            localStorage.setItem("guest_user_id", guestId);
-        }
+//         if (!guestId) {
+//             guestId = crypto.randomUUID(); // Still uses native API
+//             localStorage.setItem("guest_user_id", guestId);
+//         }
 
-        return guestId;
-    }
+//         return guestId;
+//     }
 
-    const guestUserId = getOrCreateGuestId();
-    $("#logged_user_id").val(guestUserId);
-});
+//     const guestUserId = getOrCreateGuestId();
+//     $("#logged_user_id").val(guestUserId);
+// });
 
 $(document).ready(function () {
     var galleryThumbs = new Swiper(".gallery-thumbs", {

@@ -43,9 +43,9 @@
             <ul class="list-unstyled followSocailNetwork d-flex flex-nowrap">
                 <!-- <li class="fwEbold mr-xl-11 mr-sm-6 mr-4">Follow us:</li> -->
                 <li class="mr-xl-6 mr-sm-4 mr-2"><a href="javascript:void(0);" class="fab fa-facebook-f"></a></li>
-                <li class="mr-xl-6 mr-sm-4 mr-2"><a href="javascript:void(0);" class="fab fa-twitter"></a></li>
-                <li class="mr-xl-6 mr-sm-4 mr-2"><a href="javascript:void(0);" class="fab fa-pinterest"></a></li>
-                <li class="mr-2"><a href="javascript:void(0);" class="fab fa-google-plus-g"></a></li>
+                <li class="mr-xl-6 mr-sm-4 mr-2"><a href="javascript:void(0);" class="fab fa-instagram"></a></li>
+                {{-- <li class="mr-xl-6 mr-sm-4 mr-2"><a href="javascript:void(0);" class="fab fa-pinterest"></a></li>
+                <li class="mr-2"><a href="javascript:void(0);" class="fab fa-google-plus-g"></a></li> --}}
             </ul>
         </div>
 
@@ -53,8 +53,8 @@
     </div>
 </aside>
 
-<footer id="footer" class="container-fluid overflow-hidden px-lg-20 bg-dark">
-    <div class="col-12 copyRightHolder v-II text-center pt-md-3 pb-md-4 py-2">
+<footer id="footer" class="container-fluid overflow-hidden px-lg-20 bg-dark" style="background: #90c892 !important;">
+    <div class="col-12 copyRightHolder v-II text-center pt-md-3 pb-md-4 py-2" style="color: #000;">
         <p class="mb-0">Copyright 2025 by <a href="javascript:void(0);">Grab Many</a> - All right reserved</p>
     </div>
 </footer>

@@ -1,6 +1,18 @@
 @extends('layouts.default')
 @section('main-content')
     <style>
+        .home-feature .featureCol {
+            width: 100% !important;
+        }
+
+        .partnerSec .slick-slide {
+            height: unset !important;
+        }
+
+        .card {
+            width: 290px;
+        }
+
         .slick-fade .align {
             position: relative;
             overflow: hidden;
@@ -57,6 +69,26 @@
             transition: opacity 0.3s ease;
             display: none;
             opacity: 0;
+        }
+
+        /* .banner .slick-slide {
+                                                                                                                                                    height: 80vh !important;
+                                                                                                                                                }
+
+                                                                                                                                                .banner .slick-slide img {
+                                                                                                                                                    display: block;
+                                                                                                                                                    height: 100vh;
+                                                                                                                                                } */
+
+        @media only screen and (max-width:576px) {
+            .banner .slick-slide {
+                height: 25vh !important;
+            }
+
+            .banner .slick-slide img {
+                display: block;
+                height: 25vh;
+            }
         }
 
         .fade-new .slick-prev:hover,
@@ -132,7 +164,7 @@
 
         .premium-benefits-wrapper {
             padding: 4rem 0;
-            background: linear-gradient(135deg, #ffffff 0%, #81c784 100%);
+            background: linear-gradient(135deg, #cdcdcd 0%, #81c784 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -289,14 +321,22 @@
             object-fit: contain;
             /* Ensures no stretching or cropping */
         }
+
+        .card:hover {
+            filter: drop-shadow(0px 2px 3px #01236a);
+        }
+
+        .slick-slide img {
+            width: 100%;
+        }
     </style>
-    <section class="introBlock position-relative">
+    <section class="introBlock position-relative banner">
 
         <div class="fade-new">
             @if ($banners)
                 @foreach ($banners as $banner)
                     <div>
-                        <img src="{{ env('MAIN_URL') }}images/{{ $banner->image }}" alt="" style="object-fit: contain">
+                        <img src="{{ env('MAIN_URL') }}images/{{ $banner->image }}" alt="" style="object-fit: cover">
                     </div>
                 @endforeach
             @endif
@@ -317,10 +357,13 @@
 
     <!-- featureSec -->
     <section
-        class="featureSec container-fluid overflow-hidden pt-xl-12 pt-lg-10 pt-md-40 pt-5 pb-xl-10 pb-lg-4 pb-md-2 px-xl-14 px-lg-7 home-feature">
+        class="featureSec container-fluid overflow-hidden pt-xl-12 pt-lg-10 pt-md-40 pt-5 pb-xl-10 pb-lg-4 pb-md-2 px-xl-14 px-lg-7 home-feature"
+        style="background: linear-gradient(45deg, #f3fff4, #a3d6a5);filter: drop-shadow(1px 2px 1px #5a5a5a80);">
         <!-- mainHeader -->
-        <header class="col-12 mainHeader mb-7 text-center">
-            <h1 class="headingIV fwEblod mb-4" style="font-family: DMSerifDisplay;font-weight:300;">Popular Products</h1>
+        <header class="col-12 mainHeader mb-7 text-center" style="display: flex;justify-content: center">
+            <h1 class="headingIV fwEblod "
+                style="font-weight:700;color:#01236a;border-bottom: 2px solid green;width: 28%;text-shadow: 2px 2px 4px #fff;">
+                Popular Products</h1>
 
         </header>
         @php
@@ -328,52 +371,56 @@
         @endphp
 
         <div class="row p-0 overflow-hidden d-flex flex-wrap g-4">
-            @foreach ($prod as $product)
-                @php
+            <div class="product-slider owl-carousel owl-theme">
+                @foreach ($prod as $product)
+                    @php
 
-                    $firstVarient = \App\Models\ProductVarient::where('product_id', $product->id)->first();
-                @endphp
-                <div class="col-lg-3 col-12 mb-3">
-                    <div class="card" style="border-radius: 15px;height:480px">
-                        <div class="card-header bg-transparent text-right">
-                            <a href="/product-details/{{ $product->prod_unique_name }}"><img
-                                    src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}" class="card-img-top"
-                                    alt="Prod Image" style="object-fit:contain;height:300px;"></a>
-                        </div>
-
-
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><a
-                                    href="/product-details/{{ $product->prod_unique_name }}">{{ $product->product_name }}</a>
-                            </h5>
-                            <div class="row">
-                                <div class="col-lg-12 text-center">
-                                    @if ($firstVarient->mrp_price == $firstVarient->offer_price)
-                                        ₹{{ $firstVarient->mrp_price }}
-                                    @else
-                                        <del> ₹ {{ $firstVarient->mrp_price }}</del>
-                                        ₹{{ $firstVarient->offer_price }}
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-lg-12 text-center">
-                                    <a href="/product-details/{{ $product->prod_unique_name }}"
-                                        class="btn btnTheme btnShop p-2 text-white w-full">View Details</a>
-                                </div>
+                        $firstVarient = \App\Models\ProductVarient::where('product_id', $product->id)->first();
+                    @endphp
+                    <div class="col-lg-3 col-12 mb-3">
+                        <div class="card" style="height:480px">
+                            <div class="card-header bg-transparent text-right">
+                                <a href="/product-details/{{ $product->prod_unique_name }}"><img
+                                        src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}" class="card-img-top"
+                                        alt="Prod Image" style="object-fit:contain;height:300px;"></a>
                             </div>
 
+
+                            <div class="card-body">
+                                <h5 class="card-title text-center"><a
+                                        href="/product-details/{{ $product->prod_unique_name }}">{{ $product->product_name }}</a>
+                                </h5>
+                                <div class="row">
+                                    <div class="col-lg-12 text-center" style="color: #1aad64">
+                                        @if ($firstVarient->mrp_price == $firstVarient->offer_price)
+                                            ₹{{ $firstVarient->mrp_price }}
+                                        @else
+                                            <del style="color: #004085"> ₹ {{ $firstVarient->mrp_price }}</del>
+                                            ₹{{ $firstVarient->offer_price }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-lg-12 text-center">
+                                        <a href="/product-details/{{ $product->prod_unique_name }}"
+                                            class="btn btnTheme btnShop p-2 text-white w-full">Buy</a>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </section>
     <section
-        class="featureSec container-fluid overflow-hidden pt-xl-12 pt-lg-10 pt-md-40 pt-5 pb-xl-10 pb-lg-4 pb-md-2 px-xl-14 px-lg-7 home-feature">
+        class="featureSec container-fluid overflow-hidden pt-xl-12 pt-lg-10 pt-md-40 pt-5 pb-xl-10 pb-lg-4 pb-md-2 px-xl-14 px-lg-7 home-feature"
+        style="background: url(/assets/images/bg6.jpg);">
         <!-- mainHeader -->
-        <header class="col-12 mainHeader mb-7 text-center">
-            <h1 class="headingIV fwEblod mb-4" style="font-family: DMSerifDisplay;font-weight:300;">New Arrivals</h1>
+        <header class="col-12 mainHeader mb-7 text-center d-flex" style="justify-content: center">
+            <h1 class="headingIV fwEblod " style="font-weight:700;color:#01236a;border-bottom: 2px solid green;width: 21%;">
+                New Arrivals</h1>
 
         </header>
         @php
@@ -382,50 +429,53 @@
         @endphp
 
         <div class="row p-0 overflow-hidden d-flex flex-wrap">
-            @foreach ($prod as $product)
-                @php
+            <div class="product-slider owl-carousel owl-theme">
+                @foreach ($prod as $product)
+                    @php
 
-                    $firstVarient = \App\Models\ProductVarient::where('product_id', $product->id)->first();
-                @endphp
-                <div class="col-lg-3 col-12 mb-3">
-                    <div class="card" style="border-radius: 15px;height:480px">
-                        <div class="card-header bg-transparent text-right">
-                            <a href="/product-details/{{ $product->prod_unique_name }}"><img
-                                    src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}" class="card-img-top"
-                                    alt="Prod Image" style="object-fit:contain;height:300px;"></a>
-                        </div>
-
-
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><a
-                                    href="/product-details/{{ $product->prod_unique_name }}">{{ $product->product_name }}</a>
-                            </h5>
-                            <div class="row">
-                                <div class="col-lg-12 text-center">
-                                    @if ($firstVarient->mrp_price == $firstVarient->offer_price)
-                                        ₹{{ $firstVarient->mrp_price }}
-                                    @else
-                                        <del> ₹ {{ $firstVarient->mrp_price }}</del>
-                                        ₹{{ $firstVarient->offer_price }}
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-lg-12 text-center">
-                                    <a href="/product-details/{{ $product->prod_unique_name }}"
-                                        class="btn btnTheme btnShop p-2 text-white w-full">View Details</a>
-                                </div>
+                        $firstVarient = \App\Models\ProductVarient::where('product_id', $product->id)->first();
+                    @endphp
+                    <div class="col-lg-3 col-12 mb-3">
+                        <div class="card" style="height:480px">
+                            <div class="card-header bg-transparent text-right">
+                                <a href="/product-details/{{ $product->prod_unique_name }}"><img
+                                        src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}" class="card-img-top"
+                                        alt="Prod Image" style="object-fit:contain;height:300px;"></a>
                             </div>
 
+
+                            <div class="card-body">
+                                <h5 class="card-title text-center"><a
+                                        href="/product-details/{{ $product->prod_unique_name }}">{{ $product->product_name }}</a>
+                                </h5>
+                                <div class="row">
+                                    <div class="col-lg-12 text-center" style="color: #1aad64">
+                                        @if ($firstVarient->mrp_price == $firstVarient->offer_price)
+                                            ₹{{ $firstVarient->mrp_price }}
+                                        @else
+                                            <del style="color: #004085"> ₹ {{ $firstVarient->mrp_price }}</del>
+                                            ₹{{ $firstVarient->offer_price }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-lg-12 text-center">
+                                        <a href="/product-details/{{ $product->prod_unique_name }}"
+                                            class="btn btnTheme btnShop p-2 text-white w-full">Buy</a>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </section>
 
     <!-- contactListBlock -->
-    {{-- <div class="contactListBlock container overflow-hidden pt-xl-8 pt-lg-10 pt-md-8 pt-4 pb-xl-12 pb-lg-10 pb-md-4 pb-1">
+    {{-- <div
+        class="contactListBlock container overflow-hidden pt-xl-8 pt-lg-10 pt-md-8 pt-4 pb-xl-12 pb-lg-10 pb-md-4 pb-1">
         <div class="row">
             <div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
                 <!-- contactListColumn -->
@@ -490,24 +540,24 @@
                             shipping nationwide.</p>
                     </div>
                 </div>
-
-                <!-- Perfect Gift -->
                 <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                     <div class="benefit-showcase-card">
                         <div class="benefit-icon-circle">
-                            <i class="fas fa-gift"></i>
+                            <i class="fas fa-shipping-fast"></i>
                         </div>
-                        <h3 class="benefit-card-heading">Perfect Gift Idea</h3>
-                        <p class="benefit-card-text">Curated selections and gift wrapping services to make every occasion
-                            special.</p>
+                        <h3 class="benefit-card-heading">Quick Delivery</h3>
+                        <p class="benefit-card-text">Complimentary delivery on all orders over $100. Fast and secure
+                            shipping nationwide.</p>
                     </div>
                 </div>
+
+                <!-- Perfect Gift -->
 
                 <!-- Easy Returns -->
                 <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                     <div class="benefit-showcase-card">
                         <div class="benefit-icon-circle">
-                            <i class="fas fa-undo-alt"></i>
+                            <i class="fas fa-gift"></i>
                         </div>
                         <h3 class="benefit-card-heading">3-Day Returns</h3>
                         <p class="benefit-card-text">Hassle-free return policy within 3 days. Your satisfaction is our
@@ -530,53 +580,53 @@
         </div>
     </section>
     <!-- partnerSec -->
-    <div class="partnerSec container overflow-hidden pt-xl-12 pb-xl-23 pt-lg-10 pt-md-8 pt-5 pb-lg-20 pb-md-16 pb-10">
+    <div class="partnerSec container overflow-hidden pt-xl-12  pt-lg-10 pt-md-8 pt-5  pb-md-16 pb-10">
+        <header class="col-12 mainHeader mb-7 text-center d-flex" style="justify-content: center">
+            <h1 class="headingIV fwEblod " style="font-weight:700;color:#01236a;border-bottom: 2px solid green;width: 28%;">
+                Available Brands</h1>
+
+        </header>
         <div class="row">
             <div class="col-12">
                 <!-- partnerSlider -->
                 <div class="partnerSlider d-flex flex-wrap">
                     <div>
                         <div class="logoColumn d-flex align-items-center justify-content-center">
-                            <a href="javascript:void(0);"><img src="/assets/images/clients/p-logo1.png" alt="Partner Logo"
+                            <a href="javascript:void(0);"><img src="/assets/images/brand.jpg" alt="Partner Logo"
                                     class="img-fluid"></a>
                         </div>
                     </div>
                     <div>
                         <div class="logoColumn d-flex align-items-center justify-content-center">
-                            <a href="javascript:void(0);"><img src="/assets/images/clients/p-logo2.png" alt="Partner Logo"
+                            <a href="javascript:void(0);"><img src="/assets/images/brand2.jpg" alt="Partner Logo"
                                     class="img-fluid"></a>
                         </div>
                     </div>
                     <div>
                         <div class="logoColumn d-flex align-items-center justify-content-center">
-                            <a href="javascript:void(0);"><img src="/assets/images/clients/p-logo3.png" alt="Partner Logo"
+                            <a href="javascript:void(0);"><img src="/assets/images/brand3.jpg" alt="Partner Logo"
                                     class="img-fluid"></a>
                         </div>
                     </div>
                     <div>
                         <div class="logoColumn d-flex align-items-center justify-content-center">
-                            <a href="javascript:void(0);"><img src="/assets/images/clients/p-logo4.png"
-                                    alt="Partner Logo" class="img-fluid"></a>
+                            <a href="javascript:void(0);"><img src="/assets/images/brand4.jpg" alt="Partner Logo"
+                                    class="img-fluid"></a>
                         </div>
                     </div>
                     <div>
                         <div class="logoColumn d-flex align-items-center justify-content-center">
-                            <a href="javascript:void(0);"><img src="/assets/images/clients/p-logo5.png"
-                                    alt="Partner Logo" class="img-fluid"></a>
+                            <a href="javascript:void(0);"><img src="/assets/images/brand5.jpg" alt="Partner Logo"
+                                    class="img-fluid"></a>
                         </div>
                     </div>
                     <div>
                         <div class="logoColumn d-flex align-items-center justify-content-center">
-                            <a href="javascript:void(0);"><img src="/assets/images/clients/p-logo1.png"
-                                    alt="Partner Logo" class="img-fluid"></a>
+                            <a href="javascript:void(0);"><img src="/assets/images/brand6.jpg" alt="Partner Logo"
+                                    class="img-fluid"></a>
                         </div>
                     </div>
-                    <div>
-                        <div class="logoColumn d-flex align-items-center justify-content-center">
-                            <a href="javascript:void(0);"><img src="/assets/images/clients/p-logo2.png"
-                                    alt="Partner Logo" class="img-fluid"></a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -606,8 +656,7 @@
 
                     <input type="hidden" name="cartModal_prod_id" id="cartModal_prod_id">
                     @if (Auth::check())
-                        <input type="hidden" name="cartModal_user_id" id="cartModal_user_id"
-                            value="{{ Auth::user()->id }}">
+                        <input type="hidden" name="cartModal_user_id" id="cartModal_user_id" value="{{ Auth::user()->id }}">
                     @endif
 
                     <div class="text-right">

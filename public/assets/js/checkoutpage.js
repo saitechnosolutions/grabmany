@@ -88,6 +88,7 @@ $(document).ready(function () {
                                     alert(
                                         "Order failed to store. Please contact support."
                                     );
+                                  
                                     $('button[type="submit"]').prop(
                                         "disabled",
                                         false

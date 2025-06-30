@@ -128,9 +128,63 @@
         align-items: center;
         justify-content: center;
     }
+
+    .custom-social-bar {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        z-index: 9999;
+    }
+
+    .facebook-view-button,
+    .instagram-view-button,
+    .youtube-view-button,
+    .linkedin-view-button {
+        display: block;
+        width: 49px;
+        height: 49px;
+        background-size: 40px 40px;
+        background-repeat: no-repeat;
+        background-position: center;
+        /* border-radius: 0 12px 12px 0; */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Facebook Button */
+    .facebook-view-button {
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg');
+        background-color: #1877F2;
+    }
+
+    /* Instagram Button */
+    .instagram-view-button {
+        background-image: url('http://www.walltowallcarpetinterior.com/wp-content/uploads/2024/09/INSTAGRAM-ICON.png');
+        background-color: #E1306C;
+    }
+
+    /* YouTube Button */
+    .youtube-view-button {
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg');
+        background-color: #25D366;
+    }
+
+    /* LinkedIn Button */
+    .linkedin-view-button {
+        background-image: url('https://cdn-icons-png.flaticon.com/512/159/159832.png');
+        background-color: #ffffff;
+    }
 </style>
 
 <body>
+    <div class="custom-social-bar">
+        <a href="https://www.facebook.com/" target="_blank" class="facebook-view-button"></a>
+        <a href="https://www.instagram.com/" target="_blank" class="instagram-view-button"></a>
+        <a href="https://wa.me/9962238784" target="_blank" class="youtube-view-button"></a>
+        <a href="tel:+919962238784" target="_blank" class="linkedin-view-button"></a>
+    </div>
     <!-- pageWrapper -->
     <div id="pageWrapper">
         <!-- pageHeader -->
@@ -152,9 +206,11 @@
 
     </div>
     <!-- include jQuery library -->
-    {{-- <script src="/assets/js/jquery-3.4.1.min.js"></script> --}}
+    {{--
+    <script src="/assets/js/jquery-3.4.1.min.js"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
+    {{--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
     <!-- include bootstrap popper JavaScript -->
     <script src="/assets/js/popper.min.js"></script>
     <!-- include bootstrap JavaScript -->
@@ -170,7 +226,7 @@
         AOS.init();
     </script>
     <script>
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             const preloader = document.getElementById('preloader');
             preloader.style.opacity = '0';
             preloader.style.visibility = 'hidden';
@@ -195,5 +251,41 @@
 
 
 </body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+<!-- Include jQuery (required) and Owl Carousel JS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.product-slider').owlCarousel({
+            loop: true,
+            margin: 15,
+            nav: true,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            navText: [
+                '<i class="fas fa-chevron-left"></i>',
+                '<i class="fas fa-chevron-right"></i>'
+            ],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                576: {
+                    items: 2
+                },
+                768: {
+                    items: 3
+                },
+                992: {
+                    items: 4
+                }
+            }
+        });
+    });
+</script>
 
 </html>

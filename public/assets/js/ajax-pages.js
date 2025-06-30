@@ -123,26 +123,25 @@ $(document).ready(function () {
 
     $(document).on("change", ".qty-input", function () {
         let $row = $(this).closest("tr");
-        let price = parseFloat($row.find("td:eq(1)").text()); // price column
+        let price = parseFloat($row.find("td:eq(1)").text()); 
         let qty = parseInt($(this).val());
         let cartId = $(this).data("cart-id");
-        let gstPercent = 18; // Or dynamically load this if different per product
-
+        let gstPercent = 18; 
         if (isNaN(price) || isNaN(qty)) return;
 
         let totalPrice = price * qty;
         let gstAmount = totalPrice * (gstPercent / 100);
         let totalWithGst = Math.round(totalPrice);
 
-        // ✅ Update only the price span, not the whole cell
+      
         $row.find(".price-val").text(totalWithGst);
 
-        // ✅ Update hidden inputs
+       
         $row.find('input[name="totalprice[]"]').val(totalWithGst);
         $row.find('input[name="product_quantity[]"]').val(qty);
 
         updateSubtotal();
-        // ✅ AJAX call to update cart in backend
+       
         $.ajax({
             url: "/update-cart",
             method: "POST",

@@ -1,6 +1,11 @@
 @extends('layouts.default')
 @section('main-content')
-    <section class="introBannerHolder d-flex w-100 bgCover" style="background: url('/assets/images/b-bg.jpg');">
+    <style>
+        .stepCol {
+            background: linear-gradient(45deg, #e1f2e1, #9bd39e);
+        }
+    </style>
+    <section class="introBannerHolder d-flex w-100 bgCover" style="background: url('/assets/images/about-bg.jpg');">
         <div class="container">
             <div class="row">
                 <div class="col-12 pt-lg-5 pt-md-15 pt-sm-10 pt-6 text-center">
@@ -60,7 +65,8 @@
                     </h2>
                 </div>
                 <div class="col-12 col-lg-6 mb-lg-0 mb-6">
-                    <img src="/assets/images/why-choose.png" alt="image description" class="img-fluid">
+                    <img src="/assets/images/about-sec.jpg" alt="image description" class="img-fluid"
+                        style="height: 470px;">
                 </div>
                 <div class="col-12 col-lg-6">
                     <div id="accordion" class="accordionList pt-lg-12">
@@ -131,8 +137,7 @@
                                     </button>
                                 </h5>
                             </div>
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                                data-parent="#accordion">
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                                 <div class="card-body px-xl-5 py-0">
                                     <p class="mb-7">Whether you're lounging at home, heading out with friends, or
                                         dressing
@@ -150,7 +155,8 @@
 
         </div>
     </section>
-    <section class="processStepSec container pt-xl-23 pb-xl-10 pt-lg-20 pb-lg-10 pt-md-16 pb-md-8 pt-10 pb-0">
+    <section class="processStepSec container pt-xl-23 pb-xl-10 pt-lg-20 pb-lg-10 pt-md-16 pb-md-8 pt-10 pb-0"
+        style="background: url(/assets/images/about-back.jpg);">
         <div class="row">
             <header class="col-12 mainHeader mb-3 text-center">
                 <h1 class="headingIV playfair fwEblod mb-4">Delivery Process</h1>
@@ -195,7 +201,7 @@
         </div>
     </section>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const counters = document.querySelectorAll('.counter');
 
             const animateCounter = (el) => {

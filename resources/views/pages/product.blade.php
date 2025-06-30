@@ -1,9 +1,35 @@
 @extends('layouts.default')
 @section('main-content')
 
+    <style>
+        .form-control {
+            display: block;
+            width: 60%;
+            height: 37px;
+            padding: 5px 7px;
+            font-size: -0.0625rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #343a40;
+            background-color: transparent !important;
+            background-clip: padding-box;
+            border: 1px solid #1d1d1d;
+            border-radius: 10px;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            -webkit-transition: border-color 0.3s ease, -webkit-box-shadow 0.3s ease;
+            transition: border-color 0.3s ease, -webkit-box-shadow 0.3s ease;
+            -o-transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
+        }
 
+        .card:hover {
+            filter: drop-shadow(0px 2px 3px #01236a);
+        }
+    </style>
     <!-- twoColumns -->
-    <div class="twoColumns container-fluid pt-lg-23 pb-lg-20 pt-md-16 pb-md-4 pt-10 pb-4 px-5">
+    <div class="twoColumns container-fluid   pt-md-16 pb-md-4 pt-10 pb-4 px-5">
         <div class="row">
             <div class="col-lg-12">
                 <header class="show-head d-flex flex-wrap justify-content-between mb-7">
@@ -94,12 +120,11 @@
                                         $product->id,
                                     )->first();
                                 @endphp
-                                <div class="card" style="border-radius: 15px;height:480px">
+                                <div class="card" style="height:480px">
                                     <div class="card-header bg-transparent text-right">
                                         <a href="/product-details/{{ $product->prod_unique_name }}"><img
-                                                src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}"
-                                                class="card-img-top" alt="Prod Image"
-                                                style="object-fit:contain;height:300px;"></a>
+                                                src="{{ env('MAIN_URL') }}images/{{ $product->product_image }}" class="card-img-top"
+                                                alt="Prod Image" style="object-fit:contain;height:300px;"></a>
                                     </div>
 
 
@@ -108,19 +133,19 @@
                                                 href="/product-details/{{ $product->prod_unique_name }}">{{ $product->product_name }}</a>
                                         </h5>
                                         <div class="row">
-                                            <div class="col-lg-12 text-center">
+                                            <div class="col-lg-12 text-center" style="color: #1aad64">
                                                 @if ($firstVarient->mrp_price == $firstVarient->offer_price)
                                                     ₹{{ $firstVarient->mrp_price }}
                                                 @else
-                                                    <del> ₹ {{ $firstVarient->mrp_price }}</del>
+                                                    <del style="color: #004085"> ₹ {{ $firstVarient->mrp_price }}</del>
                                                     ₹{{ $firstVarient->offer_price }}
                                                 @endif
                                             </div>
                                         </div>
                                         <div class="row mt-3">
-                                            <div class="col-lg-12 text-center">
+                                            <div class="col-lg-12 text-center" style="display: flex;justify-content: center">
                                                 <a href="/product-details/{{ $product->prod_unique_name }}"
-                                                    class="btn btnTheme btnShop p-2 text-white w-full">View Details</a>
+                                                    class="btn btnTheme btnShop p-2 text-white w-full">Buy</a>
                                             </div>
                                         </div>
 

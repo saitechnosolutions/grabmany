@@ -135,7 +135,7 @@ $(document).ready(function () {
                         prodHtml += `</div>
                                         </div>
                                         <div class="row mt-3">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12" style="display:flex;justify-content:center;">
                                                 <button class="btn btnTheme btnShop p-2 text-white w-full" style="min-width:270px">
                                                     Add to Cart
                                                 </button>
@@ -208,7 +208,7 @@ $(document).ready(function () {
                         prodHtml += `</div>
                                         </div>
                                         <div class="row mt-3">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12" style="display:flex;justify-content:center;">
                                                 <button class="btn btnTheme btnShop p-2 text-white w-full" style="min-width:270px">
                                                     Add to Cart
                                                 </button>
@@ -281,7 +281,7 @@ $(document).ready(function () {
                         prodHtml += `</div>
                                         </div>
                                         <div class="row mt-3">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12" style="display:flex;justify-content:center;">
                                                 <button class="btn btnTheme btnShop p-2 text-white w-full" style="min-width:270px">
                                                     Add to Cart
                                                 </button>
@@ -346,5 +346,88 @@ $(document).ready(function () {
                 alert("Something went wrong. Please try again.");
             },
         });
+    });
+});
+
+$(document).ready(function () {
+    // Shared AJAX function
+    function fetchProductsByCategory(categoryId) {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        $.ajax({
+            url: "/product/categoryfilter",
+            type: "POST",
+            data: {
+                selectedCategory: categoryId,
+            },
+            success: function (response) {
+                $("#product-container").empty();
+                let prodHtml = "";
+
+                if (response.status == 200 && response.products.length > 0) {
+                    $.each(response.products, function (index, product) {
+                        prodHtml += `
+                            <div class="col-lg-4 col-12 col-sm-6 featureCol mb-7 produc"
+                                data-cat="${product.categoryid}" 
+                                data-price="${product.offer_price}" 
+                                data-date="${product.created_at}">
+                                
+                                <div class="card" style="border-radius: 15px;height:480px">
+                                    <div class="card-header bg-transparent text-right">
+                                        <a href="/product-details/${product.product.prod_unique_name}">
+                                            <img src="https://dashboardgrabmany.saitechnosolutions.co.in/images/${product.product.product_image}" class="card-img-top" alt="Prod Image"
+                                                style="object-fit:contain;height:300px;">
+                                        </a>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">
+                                            <a href="/product-details/${product.product.prod_unique_name}">${product.product.product_name}</a>
+                                        </h5>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-center">`;
+
+                        if (product.mrp_price === product.offer_price) {
+                            prodHtml += `₹${product.mrp_price}`;
+                        } else {
+                            prodHtml += `<del>₹${product.mrp_price}</del> ₹${product.offer_price}`;
+                        }
+
+                        prodHtml += `</div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-lg-12" style="display:flex;justify-content:center;">
+                                                <button class="btn btnTheme btnShop p-2 text-white w-full" style="min-width:270px">
+                                                    Add to Cart
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
+                } else {
+                    prodHtml = `<div class="text-danger">No Available Products</div>`;
+                }
+
+                $("#product-container").html(prodHtml);
+            },
+        });
+    }
+
+    // Triggered when category radio is changed
+    $(document).on("change", ".category-radio", function () {
+        let selectedCategory = $(this).val();
+        fetchProductsByCategory(selectedCategory);
+    });
+
+    // Triggered when dropdown item is clicked
+    $(document).on("click", ".category-dropdown-trigger", function () {
+        let selectedCategory = $(this).data("category");
+        fetchProductsByCategory(selectedCategory);
     });
 });
